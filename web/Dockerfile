@@ -15,4 +15,6 @@ COPY --from=builder --chown=nextjs:nodejs /app ./
 USER nextjs
 # EXPOSE 3000
 # ENV PORT 3000
-CMD ["npm", "run", "start"]
+# ниже если не используется output: export (пребилд в html)
+# CMD ["npm", "run", "start"]
+CMD ["npx", "serve@latest", "out", "-y"]
