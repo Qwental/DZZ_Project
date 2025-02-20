@@ -2,15 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   swcMinify: true,
-  output: "export",
+//   output: "export",
   experimental: {
-    forceSwcTransforms: true, 
+    forceSwcTransforms: true,
   },
   webpack: (config: any) => {
     config.optimization = {
       ...config.optimization,
       usedExports: true,
-      minimize: true, 
+      minimize: true,
     };
     return config;
   },
