@@ -6,14 +6,11 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
+  display: flex;
   align-items: center;
   justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
+  justify-content: center;
+  width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,8 +27,9 @@
 .main {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
+   gap: 32px;
+  /* grid-row-start: 2;  */
+  align-items: center;
 }
 
 .main ol {
