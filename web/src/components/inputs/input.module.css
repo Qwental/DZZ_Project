@@ -1,0 +1,39 @@
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    background: #e0e0e0;
+    border-radius: 20px;
+    padding: 10px;
+    width: 100%;
+}
+
+.icon {
+    content: ' ';
+    /* Путь к иконке */
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 16px;
+    color: #666;
+}
+
+.icon-people {
+    background-image: url('/icons/user.svg');
+}
+
+.icon-mail {
+    background-image: url('/icons/mail.svg');
+}
+
+.icon-pass {
+    background-image: url('/icons/lock.svg');
+}
