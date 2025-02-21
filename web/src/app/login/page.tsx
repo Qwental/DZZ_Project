@@ -1,26 +1,86 @@
-import styles from "./page.module.css";
-import Button from "@/components/button/button";
-import ResultCard from "@/components/card/ResultCard";
+"use client";
+import { FormEvent } from "react";
 import Input from "@/components/inputs/input";
+import Button from "@/components/button/button";
+import { useRouter } from "next/navigation";
+import classNames from "classnames";
+import styles from "./page.module.css";
 
-export default function Home() {
+export default function LoginPage() {
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "login",
+        username: formData.get("username"),
+        password: formData.get("password"),
+      }),
+    });
+
+    if (response.ok) {
+      router.push("/dashboard");
+    }
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Input variant="people" className={"people_test"} placeholder={"Логин"}></Input>
-        <Button variant="mint" size="medium">
-          I am button!!!!!!!!!!
-        </Button>
-        <Button variant="green" size="small">
-          I am button!!!!!!!!!!
-        </Button>
-        <Button variant="saphire" size="large">
-          I am button!!!!!!!!!!
-        </Button>
-        <ResultCard></ResultCard>
-      </main>
-      <footer className={styles.footer}>
-      </footer>
+    <div className={styles.main}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        {/* Левая колонка с картинкой */}
+        <div
+          className={styles.item}
+          style={{
+            padding: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* <img
+            src="/login-image.png" // Укажите правильный путь к изображению
+            alt="Логин иллюстрация"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              borderRadius: "16px",
+              objectFit: "cover",
+            }}
+          /> */}
+        </div>
+
+        {/* Правая колонка с формой */}
+        <div className={styles.item} style={{ padding: "2rem" }}>
+          <h2>Вход</h2>
+          <Input
+            variant="people"
+            placeholder="Введи логин"
+            required
+            className={classNames(styles.otstupiki, styles.login)}
+            name="login"
+            style={{ marginBottom: "1vh" }}
+          />
+          <Input
+            variant="pass"
+            className={classNames(styles.otstupiki, styles.pass)}
+            placeholder="Введите пароль"
+            type="password"
+            name="password"
+            required
+          />
+          <Button
+            variant="saphire"
+            size="large"
+            type="submit"
+            style={{ marginTop: "2rem" }}
+          >
+            Войти
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -6,13 +6,13 @@
     /* сапфировый */
     --saphire-color: #1C2041;
 
-    --background: #E8DEDE;
+    --background: #bebebe;
     --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: #E8DEDE;
+        --background: #bebebe;
         --foreground: #ffffff;
     }
 }

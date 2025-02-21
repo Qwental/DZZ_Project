@@ -1,4 +1,3 @@
-"use server"
 import classNames from "classnames";
 import styles from "./button.module.css";
 
