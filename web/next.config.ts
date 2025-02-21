@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // swcMinify: true,
-//   output: "export",
+  //   output: "export",
   // webpack: (config: any) => {
   //   config.optimization = {
   //     ...config.optimization,
@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
   //   };
   //   return config;
   // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "loremflickr.com",
+        port: "",
+        pathname: "**",
+        search: "",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
