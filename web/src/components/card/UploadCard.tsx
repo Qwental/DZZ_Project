@@ -6,11 +6,13 @@ const UploadCard: React.FC = () => {
   const cardClass = classNames(styles.card_upload);
 
   return (
-    <Card className={cardClass}>
-      <h2 className={styles.headText}>Загрузка изображеният</h2>
-      <div
-        style={{ width: "100px", height: "100px", backgroundColor: "gray" }}
-      ></div>
+    <Card>
+      <div className={cardClass}>
+        <h2 className={styles.headText}>Загрузка изображения</h2>
+        <div
+          style={{ width: "100px", height: "100px", backgroundColor: "gray" }}
+        ></div>
+      </div>
     </Card>
   );
 };
