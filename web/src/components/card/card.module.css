@@ -1,0 +1,16 @@
+.card {
+    /* todo: доделать фулл */
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    border: none;
+    border-radius: 32px;
+    background-color: var(--foreground);
+    /* todo: адаптировать под мобилки? */
+    width: 662px;
+    height: 777px;
+}
+
+.headText {
+    color: black;
+}

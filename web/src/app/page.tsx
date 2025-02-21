@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Button from "@/components/button";
+import Button from "@/components/button/button";
+import ResultCard from "@/components/card/ResultCard";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <Button variant="saphire" size="large">
           I am button!!!!!!!!!!
         </Button>
+        <ResultCard></ResultCard>
         <Image
           className={styles.logo}
           src="/next.svg"
