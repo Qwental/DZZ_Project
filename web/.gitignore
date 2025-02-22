@@ -3,6 +3,8 @@
 /.pnp
 .pnp.*
 .yarn/*
+package-lock.json
+pnpm-lock.yaml
 *.lock
 !.yarn/patches
 !.yarn/plugins
