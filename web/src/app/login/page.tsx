@@ -46,8 +46,10 @@ export default function LoginPage() {
             src="bird_with_circle.png"
             alt="Лого"
             style={{
-              maxWidth: "100%",
-              height: "auto",
+              marginTop: "0px",
+              width: "29.02vw",
+              height: "62.44vh",
+              // height: "auto",
               borderRadius: "16px",
               objectFit: "cover",
             }}
@@ -56,10 +58,10 @@ export default function LoginPage() {
 
         {/* Правая колонка с формой */}
         <div className={styles.item} style={{ padding: "2rem" }}>
-          <h2>Вход</h2>
+          <h2 className={styles.title}>Вход</h2>
           <Input
             variant="people"
-            placeholder="Введи логин"
+            placeholder="Логин"
             required
             className={classNames(styles.otstupiki, styles.login)}
             name="login"
@@ -68,7 +70,7 @@ export default function LoginPage() {
           <Input
             variant="pass"
             className={classNames(styles.otstupiki, styles.pass)}
-            placeholder="Введите пароль"
+            placeholder="Пароль"
             type="password"
             name="password"
             required
