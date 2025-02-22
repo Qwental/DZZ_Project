@@ -5,6 +5,7 @@ import Button from "@/components/button/button";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 import styles from "./page.module.css";
+import LinksBlock from "@/components/LinksBlock/LinksBlock";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,16 +41,17 @@ export default function LoginPage() {
             alignItems: "center",
           }}
         >
-          {/* <img
-            src="/login-image.png" // Укажите правильный путь к изображению
-            alt="Логин иллюстрация"
+          <LinksBlock />
+          <img
+            src="bird_with_circle.png"
+            alt="Лого"
             style={{
               maxWidth: "100%",
               height: "auto",
               borderRadius: "16px",
               objectFit: "cover",
             }}
-          /> */}
+          />
         </div>
 
         {/* Правая колонка с формой */}

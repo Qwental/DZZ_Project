@@ -1,7 +1,14 @@
+body {
+  background-image: url("../../../public/back.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
 .form {
-  width: 1249px;
-  height: 777px;
-  background-color: aliceblue;
+  width: 67.3vw;
+  height: 80.85vh;
+  background-color: rgba(240, 248, 255, 0.95);
   border: none;
   border-radius: 32px;
   display: flex;
@@ -16,6 +23,7 @@
   flex-direction: column;
   align-items: center;
   color: black;
+  justify-content: center
 }
 
 .main {
