@@ -1,14 +1,12 @@
-import UploadCard from "@/components/card/UploadCard";
 import styles from "./page.module.css";
-import ResultCard from "@/components/card/ResultCard";
+import dynamic from "next/dynamic";
 
-export default function Home() {
+const UploadCarousel = dynamic(() => import("@/components/card/UploadCard"));
+
+export default function UploadPage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <UploadCard></UploadCard>
-        <ResultCard></ResultCard>
-      </main>
+    <div className={styles.main}>
+      <UploadCarousel />
     </div>
   );
 }

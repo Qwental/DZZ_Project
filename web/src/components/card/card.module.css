@@ -7,10 +7,15 @@
     border-radius: 32px;
     background-color: var(--foreground);
     /* todo: адаптировать под мобилки? */
-    width: 662px;
-    height: 777px;
+    width: 35.70vw;
+    height: 80.85vh;
 }
 
 .headText {
     color: black;
+}
+
+.image{
+    width: 27.94vw;
+    height: 42.35vh;
 }
