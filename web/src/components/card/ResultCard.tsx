@@ -17,6 +17,7 @@ const ResultCard: React.FC = () => {
           alt="result"
           width={518}
           height={407}
+          className={styles.image}
         />
         <div>
           <Button variant="mint" size="medium">
