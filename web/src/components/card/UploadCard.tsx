@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button";
 import Card from "@/components/card/card";
 import styles from "./upload.module.css";
+import Image from "next/image";
 
 export default function UploadCarousel() {
   const [selectedImgs, setSelectedImgs] = useState<File[]>([]);
@@ -56,6 +57,8 @@ export default function UploadCarousel() {
   return (
     <Card>
       <div className={styles.carouselContainer}>
+        <h2 className={styles.headText}>Загрузите изображения</h2>
+
         {previewUrls.length > 0 && (
           <div className={styles.carousel}>
             <button
@@ -64,25 +67,25 @@ export default function UploadCarousel() {
               onClick={handlePrev}
               disabled={currentIndex === 0}
             >
-              &lt; Prev // TODO: вставить стрелочки с фигмы
+              <img src="icons/right.svg"></img>
             </button>
-
             <div className={styles.imageWrapper}>
-              <img
+              <Image
                 key={previewUrls[currentIndex]}
                 src={previewUrls[currentIndex]}
                 alt={`Preview ${currentIndex + 1}`}
                 className={styles.carouselImage}
+                width={563}
+                height={444}
               />
             </div>
-
             <button
               type="button"
               className={styles.arrowButton}
               onClick={handleNext}
               disabled={currentIndex === previewUrls.length - 1}
             >
-              Next &gt; // TODO: вставить стрелочки с фигмы
+              <img src="icons/left.svg"></img>
             </button>
           </div>
         )}
