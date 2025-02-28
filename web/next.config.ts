@@ -20,6 +20,20 @@ const nextConfig: NextConfig = {
         pathname: "**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "www.bigorre.org",
+        port: "",
+        pathname: "**",
+        search: "",
+      },
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+        port: "",
+        pathname: "**",
+        search: "",
+      },
     ],
   },
 };
