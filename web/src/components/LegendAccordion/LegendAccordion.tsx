@@ -16,14 +16,14 @@ const legendItems: ItemType[] = [
     color: "#FF0000",
   },
   {
-    title: "Пашен",
+    title: "Пашни",
     description: "Земли, используемые для сельскохозяйственных работ.",
-    color: "#00AA00",
+    color: "#FDC611",
   },
   {
-    title: "Лесов",
+    title: "Леса",
     description: "Натуральный лесной массив, охраняемый от вырубки.",
-    color: "#0077CC",
+    color: "#00CC00",
   },
 ];
 
