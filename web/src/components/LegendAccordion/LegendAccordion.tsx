@@ -2,17 +2,38 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./styles.module.css";
 
-type Types = "forest" | "plow" | "felling" | "blaze";
+type ItemType = {
+  title: string;
+  description: string;
+  color: string;
+};
 
-const LegendAccordion = ({ type }: { type: Types }) => {
+const legendItems: ItemType[] = [
+  {
+    title: "Гарь",
+    description: "Территория, пострадавшая от лесного пожара.",
+    color: "#FF0000",
+  },
+  {
+    title: "Пашен",
+    description: "Земли, используемые для сельскохозяйственных работ.",
+    color: "#00AA00",
+  },
+  {
+    title: "Лесов",
+    description: "Натуральный лесной массив, охраняемый от вырубки.",
+    color: "#0077CC",
+  },
+];
+
+const LegendItem = ({ title, description, color }: ItemType) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(type);
 
   return (
     <div className={styles.legendContainer}>
       <button
         className={styles.legendHeader}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
       >
         <svg
           className={styles.markerIcon}
@@ -20,9 +41,9 @@ const LegendAccordion = ({ type }: { type: Types }) => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <circle cx="9.5" cy="9.5" r="9.5" fill="#FF0000" />
+          <circle cx="9.5" cy="9.5" r="9.5" fill={color} />
         </svg>
-        <span className={styles.legendTitle}>Гарь</span>
+        <span className={styles.legendTitle}>{title}</span>
         <motion.span
           className={styles.arrow}
           animate={{ rotate: isOpen ? 180 : 0 }}
@@ -38,10 +59,18 @@ const LegendAccordion = ({ type }: { type: Types }) => {
         animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <p className={styles.legendDescription}>
-          Территория, пострадавшая от лесного пожара.
-        </p>
+        <p className={styles.legendDescription}>{description}</p>
       </motion.div>
+    </div>
+  );
+};
+
+const LegendAccordion = () => {
+  return (
+    <div>
+      {legendItems.map((item, index) => (
+        <LegendItem key={index} {...item} />
+      ))}
     </div>
   );
 };
