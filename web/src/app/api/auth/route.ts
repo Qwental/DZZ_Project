@@ -11,6 +11,8 @@ export async function POST(req: Request) {
           ? { id: 1, ...payload }
           : { access: "mock-access", refresh: "mock-refresh" };
 
+      console.log(mockData);
+
       const res = NextResponse.json(mockData);
       if (action !== "register") {
         res.cookies.set("access_token", mockData.access);

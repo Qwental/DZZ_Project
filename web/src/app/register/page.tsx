@@ -8,10 +8,19 @@ import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import LinksBlock from "@/components/LinksBlock/LinksBlock";
 
+interface RegData {
+  lastName: string;
+  firstName: string;
+  email: string;
+  login: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export default function RegisterForm() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegData>({
     lastName: "",
     firstName: "",
     email: "",
@@ -39,14 +48,36 @@ export default function RegisterForm() {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    try {
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error("Пароли не совпадают");
+      }
 
-    if (formData.password !== formData.confirmPassword) {
-      return alert("Пароли не совпадают");
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lastName: formData.lastName,
+          firstName: formData.firstName,
+          email: formData.email,
+          login: formData.login,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Ошибка регистрации");
+      }
+
+      router.push("/login");
+    } catch (err: any) {
+      console.error(err.message);
     }
-
-    console.log(formData);
-
-    router.push("/");
   };
 
   return (
