@@ -87,7 +87,13 @@ export default function UploadCarousel() {
       setResult({ success: true, data: "Результат обработки" });
     }, 2000);
     // TODO: доделать обработку запроса к API
+
   }
+
+        const testUrls = [
+          "https://i.imgur.com/YzFSzED.jpeg",
+          "https://i.imgur.com/3giN25k.jpeg",
+        ];
 
   function handleClick(_event: any): void {
     inputRef.current?.click();
@@ -189,7 +195,7 @@ export default function UploadCarousel() {
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.3 }}
           >
-            <ResultCard />
+            <ResultCard previews={previewUrls}/>
             
           </motion.div>
         )}

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./styles.module.css";
 
@@ -8,24 +8,6 @@ type ItemType = {
   description: string;
   color: string;
 };
-
-const legendItems: ItemType[] = [
-  {
-    title: "Гарь",
-    description: "Территория, пострадавшая от лесного пожара.",
-    color: "#FF0000",
-  },
-  {
-    title: "Пашни",
-    description: "Земли, используемые для сельскохозяйственных работ.",
-    color: "#FDC611",
-  },
-  {
-    title: "Леса",
-    description: "Натуральный лесной массив, охраняемый от вырубки.",
-    color: "#00CC00",
-  },
-];
 
 const LegendItem = ({ title, description, color }: ItemType) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +48,11 @@ const LegendItem = ({ title, description, color }: ItemType) => {
   );
 };
 
-const LegendAccordion = () => {
+const LegendAccordion: React.FC<{ legendItems: ItemType[] }> = ({
+  legendItems,
+}: {
+  legendItems: ItemType[];
+}) => {
   return (
     <div>
       {legendItems.map((item, index) => (
