@@ -35,7 +35,7 @@ interface ResultProps  {
 }
 
 
-const ResultCard: React.FC<ResultProps> = ({previews}: {previews: string[]}) => {
+const ResultCard: React.FC<ResultProps> = ({ previews = [] }) => {
   const cardClass = classNames(styles.card_result);
 
   return (
@@ -48,7 +48,7 @@ const ResultCard: React.FC<ResultProps> = ({previews}: {previews: string[]}) => 
             <Carousel previewUrls={previews} />
           </div>
 
-          <LegendAccordion legendItems={[]} ></LegendAccordion>
+          <LegendAccordion legendItems={legendItems}></LegendAccordion>
 
           <div className={styles.buttonsWrapper}>
             <Button
