@@ -53,12 +53,13 @@ export default function RegisterForm() {
         throw new Error("Пароли не совпадают");
       }
 
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch("/api/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          action: "register",
           lastName: formData.lastName,
           firstName: formData.firstName,
           email: formData.email,
