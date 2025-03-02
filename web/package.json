@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "bdev": "bun run next dev",
+    "bbuild": "bun run next build",
+    "bstart": "bun run next start",
+    "blint": "bun run next lint"
   },
   "dependencies": {
     "@types/cookie": "^1.0.0",
@@ -25,5 +28,5 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
     "typescript": "^5"
-  }
+  },"preinstall": "npx only-allow pnpm"
 }
