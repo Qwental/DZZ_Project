@@ -1,46 +1,59 @@
 import { NextResponse } from "next/server";
-import { login, refreshToken } from "@/lib/api";
 
-export async function POST(request: Request) {
-  const { action, ...payload } = await request.json();
+export async function POST(req: Request) {
+  try {
+    const { action, ...payload } = await req.json();
 
-  if (process.env.NODE_ENV === "development") {
-    if (action === "register") {
-      const mockData = {
-        id: 1,
-        username: payload.username,
-        email: payload.email,
-      };
+    // Разработка
+    if (process.env.NODE_ENV === "development") {
+      const mockData =
+        action === "register"
+          ? { id: 1, ...payload }
+          : { access: "mock-access", refresh: "mock-refresh" };
 
-      return NextResponse.json(mockData);
+      const res = NextResponse.json(mockData);
+      if (action !== "register") {
+        res.cookies.set("access_token", mockData.access);
+        res.cookies.set("refresh_token", mockData.refresh);
+      }
+      return res;
     }
-    const mockData = {
-      access: "mock-access-token",
-      refresh: "mock-refresh-token",
+
+    // Прод
+    const endpoints: { [key: string]: string } = {
+      login: "/api/auth/login/",
+      register: "/api/auth/register/",
+      refresh: "/api/auth/refresh/",
     };
 
-    const response = NextResponse.json(mockData);
-    response.cookies.set("access_token", mockData.access);
-    response.cookies.set("refresh_token", mockData.refresh);
-    return response;
-  }
+    const response = await fetch(
+      `${process.env.DJANGO_API}${endpoints[action]}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
-  try {
-    let data;
-    if (action === "login") {
-      data = await login(payload.username, payload.password);
-    } else if (action === "refresh") {
-      data = await refreshToken(payload.refresh);
+    const data = await response.json();
+    const nextRes = NextResponse.json(data);
+
+    if (action === "login" || action === "refresh") {
+      nextRes.cookies.set("access_token", data.access, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
+      nextRes.cookies.set("refresh_token", data.refresh, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
     }
 
-    const response = NextResponse.json(data);
-    response.cookies.set("access_token", data.access, { httpOnly: true });
-    response.cookies.set("refresh_token", data.refresh, { httpOnly: true });
-    return response;
-  } catch {
+    return nextRes;
+  } catch (error) {
     return NextResponse.json(
-      { error: "Authentication failed" },
-      { status: 401 }
+      { error: "Internal Server Error" },
+      { status: 500 }
     );
   }
 }
