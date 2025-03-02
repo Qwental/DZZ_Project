@@ -187,23 +187,7 @@ export default function UploadCarousel() {
             transition={{ duration: 0.3 }}
           >
             <ResultCard />
-            {/* <Card>
-              <div className={styles.resultContent}>
-                {!result ? (
-                  <div className={styles.loading}>
-                    <p>Обработка изображений...</p>
-                  </div>
-                ) : (
-                  <>
-                    <h3>Результаты обработки</h3>
-                    <pre>{JSON.stringify(result, null, 2)}</pre>
-                    <Button size="small" onClick={() => setShowResult(false)}>
-                      Скрыть
-                    </Button>
-                  </>
-                )}
-              </div>
-            </Card> */}
+            
           </motion.div>
         )}
       </AnimatePresence>

@@ -23,26 +23,7 @@ const ResultCard: React.FC = () => {
             <Carousel previewUrls={previewUrls} />
           </div>
 
-          {/* <div className={styles.resText}>
-            <p className={styles.sectionTitle}>Обозначенные участки:</p>
-            <div className={styles.legendItem}>
-              <svg
-                className={styles.markerIcon}
-                viewBox="0 0 19 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="9.5" cy="9.5" r="9.5" fill="#FF0000" />
-              </svg>
-              <div className={styles.legendText}>
-                <p className={styles.legendTitle}>Гарь</p>
-                <p className={styles.legendDescription}>
-                  Территория, пострадавшая от лесного пожара
-                </p>
-              </div>
-            </div>
-          </div> */}
-          <LegendAccordion type="blaze"></LegendAccordion>
+          <LegendAccordion></LegendAccordion>
 
           <div className={styles.buttonsWrapper}>
             <Button
