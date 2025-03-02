@@ -7,7 +7,10 @@ import styles from "./upload.module.css";
 import Image from "next/image";
 import Carousel from "../carousel/carousel";
 import { motion, AnimatePresence } from "framer-motion";
-import ResultCard from "./ResultCard";
+import dynamic from "next/dynamic";
+// import ResultCard from "./ResultCard";
+const ResultCard = dynamic(() => import("@/components/card/ResultCard"));
+
 
 export default function UploadCarousel() {
   const [selectedImgs, setSelectedImgs] = useState<File[]>([]);
