@@ -11,10 +11,10 @@ import dynamic from "next/dynamic";
 // import ResultCard from "./ResultCard";
 const ResultCard = dynamic(() => import("@/components/card/ResultCard"));
 
-
 export default function UploadCarousel() {
   const [selectedImgs, setSelectedImgs] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   let showZone = 1;
@@ -74,26 +74,30 @@ export default function UploadCarousel() {
     }
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
+  function handleSubmit(e: FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
+    setIsLoading(true);
+
     const formData = new FormData();
-    selectedImgs.forEach((file) => {
-      formData.append("images", file);
-    });
-    console.log(formData);
-    console.log(selectedImgs);
-    setShowResult(true);
-    setTimeout(() => {
-      setResult({ success: true, data: "Результат обработки" });
-    }, 2000);
-    // TODO: доделать обработку запроса к API
+    selectedImgs.forEach((file) => formData.append("images", file));
 
+    fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Ошибка загрузки");
+        return response.json();
+      })
+      .then((data) => {setResult(data.urls);
+      setShowResult(true);
+      setCurrentIndex(0);})
+      .catch((err) => {
+        console.error(err.message);
+        return;
+      })
+      .finally(() => setIsLoading(false));
   }
-
-        const testUrls = [
-          "https://i.imgur.com/YzFSzED.jpeg",
-          "https://i.imgur.com/3giN25k.jpeg",
-        ];
 
   function handleClick(_event: any): void {
     inputRef.current?.click();
@@ -195,8 +199,7 @@ export default function UploadCarousel() {
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.3 }}
           >
-            <ResultCard previews={previewUrls}/>
-            
+            <ResultCard previews={result} />
           </motion.div>
         )}
       </AnimatePresence>
