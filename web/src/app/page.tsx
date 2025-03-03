@@ -17,7 +17,7 @@ export default function Home() {
         <Button variant="saphire" size="large">
           I am button!!!!!!!!!!
         </Button>
-        <ResultCard></ResultCard>
+        <ResultCard previews={[]}></ResultCard>
       </main>
       <footer className={styles.footer}>
       </footer>

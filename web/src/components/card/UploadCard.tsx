@@ -1,14 +1,14 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Button from "@/components/button/button";
 import Card from "@/components/card/card";
 import styles from "./upload.module.css";
-import Image from "next/image";
 import Carousel from "../carousel/carousel";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 // import ResultCard from "./ResultCard";
+
 const ResultCard = dynamic(() => import("@/components/card/ResultCard"));
 
 export default function UploadCarousel() {
@@ -17,7 +17,6 @@ export default function UploadCarousel() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  let showZone = 1;
   const [result, setResult] = useState<any>(null);
   const [showResult, setShowResult] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,18 +26,6 @@ export default function UploadCarousel() {
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [previewUrls]);
-
-  function handleNext() {
-    if (currentIndex < previewUrls.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  }
-
-  function handlePrev() {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  }
 
   function handleFileChange(event: any): void {
     // ChangeEvent<HTMLInputElement>
@@ -56,13 +43,6 @@ export default function UploadCarousel() {
       event.target.value = "";
       return;
     }
-    const validFiles = files.filter((file) => {
-      if (!ALLOWED_TYPES.includes(file.type)) {
-        console.warn(`Файл ${file.name} имеет неподдерживаемый формат`);
-        return false;
-      }
-      return true;
-    });
 
     if (event.target.files) {
       const files: File[] = Array.from(event.target.files);
@@ -89,18 +69,19 @@ export default function UploadCarousel() {
         if (!response.ok) throw new Error("Ошибка загрузки");
         return response.json();
       })
-      .then((data) => {setResult(data.urls);
-      setShowResult(true);
-      setCurrentIndex(0);})
+      .then((data) => {
+        setResult(data.urls);
+        setShowResult(true);
+        setCurrentIndex(0);
+      })
       .catch((err) => {
         console.error(err.message);
         return;
       })
-      .finally(() => setIsLoading(false));
-  }
-
-  function handleClick(_event: any): void {
-    inputRef.current?.click();
+      .finally(() => {
+        setTimeout(() => {}, 5000);
+        setIsLoading(false);
+      });
   }
 
   const handleClear = () => {
@@ -199,7 +180,7 @@ export default function UploadCarousel() {
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.3 }}
           >
-            <ResultCard previews={result} />
+            {isLoading ? <></> : <ResultCard previews={result} />}
           </motion.div>
         )}
       </AnimatePresence>
