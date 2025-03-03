@@ -1,7 +1,10 @@
+import styles from "./page.module.css";
+
 export default function DahboardPage() {
     return (
-        <>
-        Just dahboard
-        </>
+        <div className={styles.page}>
+            <div></div>
+            <div></div>
+        </div>
     )
 }
