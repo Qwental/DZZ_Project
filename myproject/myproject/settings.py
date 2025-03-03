@@ -40,8 +40,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt',
 
-    'api_app'
+    'api_app',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +133,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+AUTH_USER_MODEL = 'users.User'
