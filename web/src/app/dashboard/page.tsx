@@ -11,12 +11,14 @@ export default function DahboardPage() {
 
   console.log("User data:", curUser);
 
+  // TODO: тут можно красоты навалить
   if (isLoading) {
-    return <div>Загрузка...</div>;
+    console.log("Загрузка")
+    // return <div>Загрузка...</div>;
   }
 
   if (!curUser?.email) {
-    return <div>Ошибка авторизации! Пользователь не найден</div>;
+    console.log("Ошибка авторизации! Пользователь не найден или не авторизован");
   }
 
   return (

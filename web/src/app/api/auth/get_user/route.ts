@@ -7,8 +7,8 @@ export async function GET() {
       const mockUser: UserInfo = {
         firstName: "Вовчик",
         lastName: "Бугренков",
-        username: "qwental",
-        email: "qwental@mail.ru",
+        username: "qwental_",
+        email: "vova2005gt@gmail.com",
         avatarSrc: "https://i.imgur.com/kEanQzn.jpeg",
         photos: [
           {
