@@ -11,7 +11,9 @@
 .resultsZone {
     flex: 2;
     min-width: 300px;
-    background-color: #bb0404;
+    background-color: #B0B0B0;
+    border: none;
+    border-radius: 10px;
     order: 1;
 }
 
@@ -23,6 +25,7 @@
     box-sizing: border-box;
     border-radius: 8px;
     order: 2;
+    color: black;
 }
 
 @media (max-width: 768px) {
