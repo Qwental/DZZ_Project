@@ -14,6 +14,11 @@ export async function POST(req: Request) {
       console.log(mockData);
 
       const res = NextResponse.json(mockData);
+      if (action === "logout") {
+        res.cookies.delete("access_token");
+        res.cookies.delete("refresh_token");
+        return res;
+      }
       if (action !== "register") {
         res.cookies.set("access_token", mockData.access);
         res.cookies.set("refresh_token", mockData.refresh);
@@ -26,6 +31,7 @@ export async function POST(req: Request) {
       login: "/api/auth/login/",
       register: "/api/auth/register/",
       refresh: "/api/auth/refresh/",
+      logout: "/api/auth/logout/",
     };
 
     const response = await fetch(
@@ -44,11 +50,18 @@ export async function POST(req: Request) {
       nextRes.cookies.set("access_token", data.access, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
       });
       nextRes.cookies.set("refresh_token", data.refresh, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
       });
+    } else if (action === "logout") {
+      nextRes.cookies.delete("access_token");
+      nextRes.cookies.delete("refresh_token");
     }
 
     return nextRes;
