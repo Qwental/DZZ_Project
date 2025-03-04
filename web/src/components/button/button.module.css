@@ -37,6 +37,21 @@
   color: white;
 }
 
+.white {
+  display: flex;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .white:hover {
+    background-color: #f2f2f2;
+  }
+}
+
 .small {
   font-size: 12px;
   padding: 5px 10px;
