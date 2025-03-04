@@ -1,24 +1,38 @@
-from django.shortcuts import render
+import os
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from .yolo_model import predict
 
-from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets
+@csrf_exempt
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        # Убедимся, что папка media существует
+        if not os.path.exists(settings.MEDIA_ROOT):
+            os.makedirs(settings.MEDIA_ROOT)
 
-from api_app.serializers import GroupSerializer, UserSerializer
+        # Сохраняем загруженное изображение
+        image = request.FILES['image']
+        image_name = image.name
+        image_path = os.path.join(settings.MEDIA_ROOT, image_name)
 
+        with open(image_path, 'wb') as f:
+            for chunk in image.chunks():
+                f.write(chunk)
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+        # Проверяем, сохранился ли файл
+        if not os.path.exists(image_path):
+            return JsonResponse({"error": "File not saved correctly"}, status=500)
 
+        # Запускаем YOLO и получаем обработанное изображение
+        processed_image_path, detections = predict(image_path)
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all().order_by('name')
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+        # Относительный путь к обработанному изображению
+        processed_image_url = os.path.join(settings.MEDIA_URL, 'processed_images', os.path.basename(processed_image_path))
+
+        return JsonResponse({
+            "processed_image_url": request.build_absolute_uri(processed_image_url),
+            "detections": detections
+        }, status=200)
+
+    return JsonResponse({"error": "No image provided"}, status=400)
