@@ -1,19 +1,27 @@
-"use client";
-
 import classNames from "classnames";
 import styles from "./style.module.css";
 import Link from "next/link";
-import { FunctionComponent } from "react";
+import { usePathname } from "next/navigation";
 
-const LinksBlock: FunctionComponent = () => {
+const LinksBlock = () => {
+  let curPath = usePathname();
   return (
     <div className={styles.linksBlock}>
-      <Link href="/login" className={styles.link}>
+      <Link
+        href="/login"
+        className={classNames(
+          styles.link,
+          curPath === "/login" && styles.activeLink
+        )}
+      >
         Войти
       </Link>
       <Link
         href="/register"
-        className={classNames(styles.link, styles.activeLink)}
+        className={classNames(
+          styles.link,
+          curPath === "/register" && styles.activeLink
+        )}
       >
         Регистрация
       </Link>
