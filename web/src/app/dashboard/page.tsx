@@ -17,6 +17,10 @@ export default function DahboardPage() {
     // return <div>Загрузка...</div>;
   }
 
+  if(curUser == null){
+    console.log();
+  }
+
   if (!curUser?.email) {
     console.log("Ошибка авторизации! Пользователь не найден или не авторизован");
   }
