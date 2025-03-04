@@ -1,42 +1,38 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export const useAuth = () => {
   const router = useRouter();
-  const [curUser, setCurUser] = useState<UserInfo>({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    avatarSrc: "",
-    photos: [],
-  });
+  const [curUser, setCurUser] = useState<UserInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const isMounted = useRef(true);
 
   useEffect(() => {
+    let isMounted = true;
     const controller = new AbortController();
 
-    const checkAuthState = async () => {
+    const fetchAuthData = async () => {
       try {
-        if (!isMounted.current) return;
-
         const authCheck = await fetch("/api/auth/check", {
           credentials: "include",
           signal: controller.signal,
+          headers: {
+            "Cache-Control": "no-cache",
+          },
         });
 
-        if (!authCheck.ok) throw new Error("Auth failed");
+        if (!authCheck.ok) throw new Error("Unauthorized");
 
         const userResponse = await fetch("/api/auth/get_user", {
           credentials: "include",
           signal: controller.signal,
         });
 
+        if (!userResponse.ok) throw new Error("Failed to fetch user");
+
         const userData = await userResponse.json();
 
-        if (isMounted.current) {
+        if (isMounted) {
           setCurUser({
             firstName: userData.firstName || "",
             lastName: userData.lastName || "",
@@ -45,24 +41,24 @@ export const useAuth = () => {
             avatarSrc: userData.avatarSrc || "",
             photos: userData.photos || [],
           });
+          setIsLoading(false);
         }
       } catch (error) {
-        if (isMounted.current) {
+        if (isMounted) {
+          console.error("Auth error:", error);
           router.replace("/login");
+          setIsLoading(false);
         }
-      } finally {
-        if (isMounted.current) setIsLoading(false);
       }
     };
 
-    checkAuthState();
+    fetchAuthData();
 
     return () => {
-      isMounted.current = false;
+      isMounted = false;
       controller.abort();
     };
-  }, [router]); // Убираем curUser из зависимостей
+  }, [router]);
 
-  // console.log(curUser);
   return { curUser, isLoading };
 };

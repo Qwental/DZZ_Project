@@ -1,16 +1,20 @@
 "use client";
 
-import Button from "@/components/button/button";
 import styles from "./userPhotos.module.css";
-import Image from "next/image";
-import router from "next/router";
+import dynamic from "next/dynamic";
+
+const UserPic = dynamic(() => import("@/components/userpic/userpic"));
+
 
 export default function UserPhotos({ pics }: { pics: Result[] }) {
   return (
-    <div className={styles.profile}>
-      {pics.map((elem, index) => (
-        <div key={index}>{elem.date}</div>
-      ))}
-    </div>
+    <section className={styles.container}>
+      <h2 className={styles.title}>Готовые файлы</h2>
+      <div className={styles.grid}>
+        {pics.map((elem, index) => (
+          <UserPic key={index} pic={elem} />
+        ))}
+      </div>
+    </section>
   );
 }
