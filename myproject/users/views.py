@@ -1,15 +1,16 @@
-from rest_framework import permissions
-from .serializers import UserSerializer, RegisterSerializer
-from rest_framework import generics
-from .serializers import UserSerializer
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework import permissions, viewsets, generics, status
+from .serializers import (
+    UserSerializer, RegisterSerializer,
+    ChangePasswordSerializer, LogoutSerializer, MyTokenObtainPairSerializer)
 from .models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import status
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
+from .permissions import IsSelf
+from rest_framework.decorators import action
 
 
-class UserDetailView(generics.RetrieveAPIView):
+"""class UserDetailView(generics.RetrieveAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -17,7 +18,57 @@ class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
 
     def get_object(self):
-        return self.request.user
+        return self.request.user"""
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy', 'change_password']:
+            permission_classes = [permissions.IsAuthenticated, IsSelf]
+        elif self.action == 'list':
+            permission_classes = [permissions.IsAdminUser]
+        else:
+            permission_classes = [permissions.IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def get_object(self):
+        if self.action in ['retrieve', 'update', 'partial_update', 'change_password']:
+            return self.request.user
+        return super().get_object()
+
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], serializer_class=ChangePasswordSerializer, url_path='change-password')
+    def change_password(self, request):
+        user = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            if not user.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(serializer.data.get("new_password"))
+            user.save()
+            return Response({'status': 'password changed'}, status=status.HTTP_204_NO_CONTENT)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()
+        if user != request.user and not request.user.is_staff:
+            return Response({"detail": "You do not have permission to delete this user."}, status=status.HTTP_403_FORBIDDEN)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def create(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class RegisterView(generics.CreateAPIView):
@@ -26,14 +77,21 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LogoutView(generics.GenericAPIView):
-    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = LogoutSerializer
 
-    def post(self, request, format=None):
-        try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-            return Response(status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exeption=True):
+            try:
+                refresh_token = serializer.validated_data["refresh_token"]
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+                return Response(status=status.HTTP_205_RESET_CONTENT)
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
