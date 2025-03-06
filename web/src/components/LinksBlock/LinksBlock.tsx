@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LinksBlock = () => {
-  let curPath = usePathname();
+  const curPath = usePathname();
   return (
     <div className={styles.linksBlock}>
       <Link

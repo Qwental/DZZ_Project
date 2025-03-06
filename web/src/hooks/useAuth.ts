@@ -4,7 +4,14 @@ import { useRouter } from "next/navigation";
 
 export const useAuth = () => {
   const router = useRouter();
-  const [curUser, setCurUser] = useState<UserInfo | null>(null);
+  const [curUser, setCurUser] = useState<UserInfo>({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    avatarSrc: "",
+    photos: [],
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

@@ -1,5 +1,8 @@
-body{
-   background-color: #E8DEDE;
+.container {
+    background-color: #E8DEDE;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 .page {

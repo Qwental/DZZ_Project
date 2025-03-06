@@ -13,29 +13,33 @@ export default function DahboardPage() {
 
   // TODO: тут можно красоты навалить
   if (isLoading) {
-    console.log("Загрузка")
+    console.log("Загрузка");
     // return <div>Загрузка...</div>;
   }
 
-  if(curUser == null){
+  if (curUser == null) {
     console.log();
   }
 
   if (!curUser?.email) {
-    console.log("Ошибка авторизации! Пользователь не найден или не авторизован");
+    console.log(
+      "Ошибка авторизации! Пользователь не найден или не авторизован"
+    );
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.resultsZone}>
-        {curUser.photos?.length ? (
-          <UserPhotos pics={curUser.photos} />
-        ) : (
-          <div>Нет доступных фотографий</div>
-        )}
-      </div>
-      <div className={styles.profileZone}>
-        <Profile user={curUser} />
+    <div className={styles.container}>
+      <div className={styles.page}>
+        <div className={styles.resultsZone}>
+          {curUser.photos?.length ? (
+            <UserPhotos pics={curUser.photos} />
+          ) : (
+            <div>Нет доступных фотографий</div>
+          )}
+        </div>
+        <div className={styles.profileZone}>
+          <Profile user={curUser} />
+        </div>
       </div>
     </div>
   );

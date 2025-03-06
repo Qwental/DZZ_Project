@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     // Прод
     const formData = await req.formData();
-    const files = formData.getAll("images") as File[];
+    // const files = formData.getAll("images") as File[];
 
     const cookieHeader = req.headers.get("cookie") || "";
     const accessToken =

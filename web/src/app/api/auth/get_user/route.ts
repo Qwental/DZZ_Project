@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
@@ -52,7 +53,7 @@ export async function GET() {
       return NextResponse.json(mockUser);
     }
 
-    const accessToken = cookies().get("access_token")?.value;
+    const accessToken = (await cookies()).get("access_token")?.value;
     console.log("Access token:", accessToken);
 
     if (!accessToken) {

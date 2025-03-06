@@ -1,7 +1,5 @@
-import classNames from "classnames";
 import styles from "./card.module.css";
 import Card from "./card";
-import Image from "next/image";
 import Button from "../button/button";
 import Carousel from "../carousel/carousel";
 import LegendAccordion from "../LegendAccordion/LegendAccordion";
@@ -36,8 +34,6 @@ interface ResultProps  {
 
 
 const ResultCard: React.FC<ResultProps> = ({ previews = [] }) => {
-  const cardClass = classNames(styles.card_result);
-
   return (
     <div className={styles.mainContent}>
       <Card>
