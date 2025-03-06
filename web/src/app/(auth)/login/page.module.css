@@ -1,4 +1,52 @@
-.page {
+body {
+  background-image: url("../../../../public/back.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+.form {
+  padding: 2rem;
+  width: 67.3vw;
+  height: 80.85vh;
+  background-color: rgba(240, 248, 255, 0.95);
+  border: none;
+  border-radius: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.item {
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  justify-content: center;
+  font-size: 2.431vw;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.otstupiki {
+  margin-bottom: 1vh;
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  margin-bottom: 9vh;
+
+}
+/* .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
@@ -28,7 +76,7 @@
   display: flex;
   flex-direction: column;
    gap: 32px;
-  /* grid-row-start: 2;  */
+ grid-row-start: 2;  
   align-items: center;
 }
 
@@ -106,7 +154,6 @@ a.secondary {
   flex-shrink: 0;
 }
 
-/* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
     background: var(--button-primary-hover);
@@ -164,3 +211,5 @@ a.secondary {
     filter: invert();
   }
 }
+
+*/
