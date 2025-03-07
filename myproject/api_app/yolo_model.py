@@ -1,4 +1,4 @@
-from ultralytics import YOLO
+"""from ultralytics import YOLO
 import os
 import cv2
 from PIL import Image
@@ -12,9 +12,11 @@ processed_images_dir = os.path.join(os.path.dirname(__file__), '..', 'processed_
 os.makedirs(processed_images_dir, exist_ok=True)  # Создаём папку, если её нет
 
 def predict(image_path):
-    """
+    """"""
     Запускает изображение через YOLOv8, сохраняет обработанное изображение и возвращает данные.
     """
+
+"""
     # Загружаем изображение
     image = Image.open(image_path)
 
@@ -48,3 +50,4 @@ def predict(image_path):
         })
 
     return processed_image_path, detections
+"""
