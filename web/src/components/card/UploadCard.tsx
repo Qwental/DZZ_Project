@@ -15,9 +15,10 @@ export default function UploadCarousel() {
   const [selectedImgs, setSelectedImgs] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentIndex, setCurrentIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<string[]>([]);
   const [showResult, setShowResult] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -27,10 +28,11 @@ export default function UploadCarousel() {
     };
   }, [previewUrls]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleFileChange(event: any): void {
     // ChangeEvent<HTMLInputElement>
-    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
-    const files: File[] = Array.from(event.target.files);
+    // const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+    // const files: File[] = Array.from(event.target.files);
 
     setPreviewUrls((prev) => {
       prev.forEach((url) => URL.revokeObjectURL(url));
@@ -89,7 +91,7 @@ export default function UploadCarousel() {
     setPreviewUrls([]);
     setCurrentIndex(0);
     setShowResult(false);
-    setResult(null);
+    setResult([]);
 
     if (inputRef.current) {
       inputRef.current.value = "";

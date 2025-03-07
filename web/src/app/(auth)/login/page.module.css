@@ -1,7 +1,10 @@
-body {
+.page {
   background-image: url("../../../../public/back.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -46,6 +49,7 @@ body {
   margin-bottom: 9vh;
 
 }
+
 /* .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);

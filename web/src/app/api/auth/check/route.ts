@@ -6,7 +6,7 @@ export async function GET() {
   try {
     // dev
     if (process.env.NODE_ENV === "development") {
-      const accessToken = cookies().get("access_token")?.value;
+      const accessToken = (await cookies()).get("access_token")?.value;
 
       if (!accessToken) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -19,7 +19,7 @@ export async function GET() {
     }
 
     // Прод
-    const accessToken = cookies().get("access_token")?.value;
+    const accessToken = (await cookies()).get("access_token")?.value;
 
     if (!accessToken) {
       return NextResponse.json(
@@ -42,7 +42,7 @@ export async function GET() {
 
     const userData = await response.json();
     return NextResponse.json(userData, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
