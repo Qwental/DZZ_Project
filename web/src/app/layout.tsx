@@ -40,7 +40,7 @@ export default async function RootLayout({
             width: "100%",
             height: "105px",
             backgroundColor: "royalblue",
-            marginBottom: "3vh",
+            // marginBottom: "3vh",
           }}
         >
           header
@@ -53,7 +53,7 @@ export default async function RootLayout({
             width: "100%",
             height: "105px",
             backgroundColor: "antiquewhite",
-            marginTop: "1vh",
+            // marginTop: "1vh",
           }}
         >
           footer

@@ -62,12 +62,12 @@ export default function RegisterForm() {
         },
         body: JSON.stringify({
           action: "register",
-          lastName: formData.lastName,
-          firstName: formData.firstName,
+          last_name: formData.lastName,
+          first_name: formData.firstName,
           email: formData.email,
-          login: formData.login,
+          username: formData.login,
           password: formData.password,
-          confirmPassword: formData.confirmPassword,
+          password2: formData.confirmPassword,
         }),
       });
 

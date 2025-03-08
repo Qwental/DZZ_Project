@@ -4,54 +4,54 @@ import { cookies } from "next/headers";
 
 export async function GET() {
   try {
-    if (process.env.NODE_ENV === "development") {
-      const mockUser: UserInfo = {
-        firstName: "Вовчик",
-        lastName: "Бугренков",
-        username: "qwental_",
-        email: "vova2005gt@gmail.com",
-        avatarSrc: "https://i.imgur.com/kEanQzn.jpeg",
-        photos: [
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-        ],
-      };
-      return NextResponse.json(mockUser);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   const mockUser: UserInfo = {
+    //     firstName: "Вовчик",
+    //     lastName: "Бугренков",
+    //     username: "qwental_",
+    //     email: "vova2005gt@gmail.com",
+    //     avatarSrc: "https://i.imgur.com/kEanQzn.jpeg",
+    //     photos: [
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //     ],
+    //   };
+    //   return NextResponse.json(mockUser);
+    // }
 
     const accessToken = (await cookies()).get("access_token")?.value;
     console.log("Access token:", accessToken);
@@ -63,7 +63,7 @@ export async function GET() {
       );
     }
 
-    const response = await fetch(`${process.env.DJANGO_API}/api/auth/user/`, {
+    const response = await fetch(`${process.env.DJANGO_API}/api/users/0/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,

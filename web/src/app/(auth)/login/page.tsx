@@ -15,11 +15,13 @@ export default function LoginPage() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
+    console.log(formData.get("username"), formData.get("password"));
+
     const response = await fetch("/api/auth", {
       method: "POST",
       body: JSON.stringify({
         action: "login",
-        username: formData.get("username"),
+        username: formData.get("login"),
         password: formData.get("password"),
       }),
     });
