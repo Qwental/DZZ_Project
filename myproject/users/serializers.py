@@ -3,12 +3,17 @@ from .models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from api_app.serializers import ProcessedImageSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
+    photos = ProcessedImageSerializer(
+        many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'username', 'email']
+        fields = ['id', 'first_name', 'last_name',
+                  'username', 'email', 'photos']
         read_only_fields = ['id', 'username']
 
 
