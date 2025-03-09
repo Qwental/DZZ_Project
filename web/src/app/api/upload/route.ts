@@ -15,10 +15,11 @@ export async function POST(req: Request) {
 
     // Прод
     const formData = await req.formData();
-    // const files = formData.getAll("images") as File[];
+    const files = formData.getAll("images") as File[];
 
     const accessToken = (await cookies()).get("access_token")?.value;
-
+    console.log(formData);
+    console.log(files)
     const djangoResponse = await fetch(
       `${process.env.DJANGO_API}/api/upload/`,
       {

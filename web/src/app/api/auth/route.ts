@@ -7,26 +7,26 @@ export async function POST(req: Request) {
     let { action, ...payload } = await req.json();
 
     // Разработка
-    // if (process.env.NODE_ENV === "development") {
-    //   const mockData =
-    //     action === "register"
-    //       ? { id: 1, ...payload }
-    //       : { access: "mock-access", refresh: "mock-refresh" };
+    if (process.env.NODE_ENV === "development") {
+      const mockData =
+        action === "register"
+          ? { id: 1, ...payload }
+          : { access: "mock-access", refresh: "mock-refresh" };
 
-    //   console.log(mockData);
+      console.log(mockData);
 
-    //   const res = NextResponse.json(mockData);
-    //   if (action === "logout") {
-    //     res.cookies.delete("access_token");
-    //     res.cookies.delete("refresh_token");
-    //     return res;
-    //   }
-    //   if (action !== "register") {
-    //     res.cookies.set("access_token", mockData.access);
-    //     res.cookies.set("refresh_token", mockData.refresh);
-    //   }
-    //   return res;
-    // }
+      const res = NextResponse.json(mockData);
+      if (action === "logout") {
+        res.cookies.delete("access_token");
+        res.cookies.delete("refresh_token");
+        return res;
+      }
+      if (action !== "register") {
+        res.cookies.set("access_token", mockData.access);
+        res.cookies.set("refresh_token", mockData.refresh);
+      }
+      return res;
+    }
 
     // Прод
     const endpoints: { [key: string]: string } = {
