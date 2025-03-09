@@ -1,39 +1,67 @@
-"""import os
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+import os
+import shutil
 from django.conf import settings
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.generics import CreateAPIView
+from .models import ProcessedImage
+from .serializers import UploadMultipleImagesSerializer, ProcessedImageSerializer
 from .yolo_model import predict
 
-@csrf_exempt
-def upload_image(request):
-    if request.method == 'POST' and request.FILES.get('image'):
-        # Убедимся, что папка media существует
-        if not os.path.exists(settings.MEDIA_ROOT):
-            os.makedirs(settings.MEDIA_ROOT)
 
-        # Сохраняем загруженное изображение
-        image = request.FILES['image']
-        image_name = image.name
-        image_path = os.path.join(settings.MEDIA_ROOT, image_name)
+class UploadImageView(CreateAPIView):
+    serializer_class = UploadMultipleImagesSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)  # Обработчики для multipart/form-data
 
-        with open(image_path, 'wb') as f:
-            for chunk in image.chunks():
-                f.write(chunk)
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        # Проверяем, сохранился ли файл
-        if not os.path.exists(image_path):
-            return JsonResponse({"error": "File not saved correctly"}, status=500)
+        images = serializer.validated_data['images']
+        uploaded_images = []
 
-        # Запускаем YOLO и получаем обработанное изображение
-        processed_image_path, detections = predict(image_path)
+        # Папка для медиа (для сохранения оригинальных изображений)
+        media_dir = os.path.join(settings.MEDIA_ROOT, 'images')
+        os.makedirs(media_dir, exist_ok=True)
 
-        # Относительный путь к обработанному изображению
-        processed_image_url = os.path.join(settings.MEDIA_URL, 'processed_images', os.path.basename(processed_image_path))
+        # Папка для обработанных изображений
+        processed_dir = settings.PROCESSED_IMAGES_ROOT
+        os.makedirs(processed_dir, exist_ok=True)
 
-        return JsonResponse({
-            "processed_image_url": request.build_absolute_uri(processed_image_url),
-            "detections": detections
-        }, status=200)
+        for image in images:
+            # Сохраняем изображение в папку media/images
+            image_path = os.path.join(media_dir, image.name)
+            with open(image_path, 'wb') as f:
+                for chunk in image.chunks():
+                    f.write(chunk)
 
-    return JsonResponse({"error": "No image provided"}, status=400)
-"""
+            # Запускаем нейросеть для обработки изображения
+            processed_image_path, _ = predict(image_path)
+
+            # Перемещаем результат в папку processed_images
+            processed_image_name = os.path.basename(processed_image_path)
+            processed_image_path_new = os.path.join(processed_dir, processed_image_name)
+            shutil.move(processed_image_path, processed_image_path_new)
+
+            # Удаляем временное изображение из папки media
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
+            # Сохраняем обработанное изображение в базе данных
+            uploaded_image = ProcessedImage.objects.create(
+                user=user,
+                image=processed_image_path_new,  # Путь к результату в папке processed_images
+            )
+            uploaded_images.append(uploaded_image)
+
+        # Сериализуем обработанные изображения
+        serialized_images = ProcessedImageSerializer(uploaded_images, many=True)
+
+        return Response({
+            "message": "Images processed",
+            "results": serialized_images.data  # Возвращаем сериализованные данные
+        }, status=201)
