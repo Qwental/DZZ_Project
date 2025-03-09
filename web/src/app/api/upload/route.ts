@@ -6,11 +6,11 @@ export async function POST(req: Request) {
   try {
     // Моки для проверки
     if (process.env.NODE_ENV === "development") {
-      const mockUrls = [
+      const mockUrls: string[] = [
         "https://i.imgur.com/YzFSzED.jpeg",
         "https://i.imgur.com/3giN25k.jpeg",
       ];
-      return NextResponse.json({ urls: mockUrls });
+      return NextResponse.json<UploadImagesResponse>({ urls: mockUrls });
     }
 
     // Прод
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       throw new Error("Ошибка загрузки изображений");
     }
 
-    const data = await djangoResponse.json();
+    const data = (await djangoResponse.json()) as UploadImagesResponse;
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
