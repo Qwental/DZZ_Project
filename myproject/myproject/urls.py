@@ -43,6 +43,4 @@ urlpatterns = [
             cache_timeout=0), name='schema-redoc'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
-    static(settings.PROCESSED_IMAGES_URL,
-           document_root=settings.PROCESSED_IMAGES_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

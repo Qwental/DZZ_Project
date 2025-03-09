@@ -58,7 +58,7 @@ class UploadImageView(APIView):
 
         # Сериализуем обработанные изображения
         serialized_images = ProcessedImageSerializer(
-            uploaded_images, many=True)
+            uploaded_images, many=True, context={'request': request})
 
         return Response({
             "message": "Images processed",
