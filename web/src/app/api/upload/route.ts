@@ -1,7 +1,8 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    console.log("я зашел сюды")
+  console.log("я зашел сюды");
   try {
     // Моки для проверки
     if (process.env.NODE_ENV === "development") {
@@ -16,12 +17,7 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     // const files = formData.getAll("images") as File[];
 
-    const cookieHeader = req.headers.get("cookie") || "";
-    const accessToken =
-      cookieHeader
-        .split("; ")
-        .find((row) => row.startsWith("access_token="))
-        ?.split("=")[1] || "";
+    const accessToken = (await cookies()).get("access_token")?.value;
 
     const djangoResponse = await fetch(
       `${process.env.DJANGO_API}/api/upload/`,
