@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/global.css";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +37,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div
+        {/* <div
           style={{
             width: "100%",
             height: "105px",
@@ -44,11 +46,12 @@ export default async function RootLayout({
           }}
         >
           header
-        </div>
+        </div> */}
+        <Header />
 
         {children}
-
-        <div
+<Footer />
+        {/* <div
           style={{
             width: "100%",
             height: "105px",
@@ -57,7 +60,7 @@ export default async function RootLayout({
           }}
         >
           footer
-        </div>
+        </div> */}
       </body>
     </html>
   );
