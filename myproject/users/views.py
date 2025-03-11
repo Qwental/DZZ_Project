@@ -10,17 +10,6 @@ from .permissions import IsSelf
 from rest_framework.decorators import action
 
 
-"""class UserDetailView(generics.RetrieveAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
-
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
-    def get_object(self):
-        return self.request.user"""
-
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -52,9 +41,9 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            if not user.check_password(serializer.data.get("old_password")):
+            if not user.check_password(serializer.validated_data.get("old_password")):
                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-            user.set_password(serializer.data.get("new_password"))
+            user.set_password(serializer.validated_data.get("new_password"))
             user.save()
             return Response({'status': 'password changed'}, status=status.HTTP_204_NO_CONTENT)
 
