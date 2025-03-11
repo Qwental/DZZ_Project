@@ -1,22 +1,16 @@
-"""from ultralytics import YOLO
+from ultralytics import YOLO
 import os
 import cv2
 from PIL import Image
+from django.conf import settings
 
 # Загружаем YOLO модель
 model_path = os.path.join(os.path.dirname(__file__), '..', 'best.pt')
 model = YOLO(model_path)
 
-# Папка для обработанных изображений
-processed_images_dir = os.path.join(os.path.dirname(__file__), '..', 'processed_images')
-os.makedirs(processed_images_dir, exist_ok=True)  # Создаём папку, если её нет
 
-def predict(image_path):
-    """"""
-    Запускает изображение через YOLOv8, сохраняет обработанное изображение и возвращает данные.
-    """
+def predict(image_path, processed_dir):
 
-"""
     # Загружаем изображение
     image = Image.open(image_path)
 
@@ -29,7 +23,7 @@ def predict(image_path):
 
     # Генерируем путь для сохранённого изображения
     processed_image_name = os.path.basename(image_path)
-    processed_image_path = os.path.join(processed_images_dir, processed_image_name)
+    processed_image_path = os.path.join(processed_dir, processed_image_name)
 
     # Сохраняем обработанное изображение
     cv2.imwrite(processed_image_path, processed_img)
@@ -49,5 +43,6 @@ def predict(image_path):
             "confidence": confidence, "class_id": int(class_id)
         })
 
-    return processed_image_path, detections
-"""
+    relative_path = os.path.relpath(processed_image_path, settings.MEDIA_ROOT)
+
+    return relative_path, detections

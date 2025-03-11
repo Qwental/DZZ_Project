@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from .models import UploadedImage
+from .models import ProcessedImage
 
-class UploadedImageSerializer(serializers.ModelSerializer):
+
+class ProcessedImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UploadedImage
-        fields = ['id', 'image', 'uploaded_at']
+        model = ProcessedImage
+        fields = ['id', 'image', 'created_at']
+        read_only_fields = ['id', 'created_at']
