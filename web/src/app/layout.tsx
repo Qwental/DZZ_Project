@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/global.css";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 
@@ -26,14 +24,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  if (process.env.NODE_ENV !== "development") {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("access_token");
+  // if (process.env.FLAG !== "development") {
+  //   const cookieStore = await cookies();
+  //   const accessToken = cookieStore.get("access_token");
 
-    if (!accessToken?.value) {
-      redirect("/login");
-    }
-  }
+  //   if (!accessToken?.value) {
+  //     redirect("/login");
+  //   }
+  // }
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>

@@ -1,9 +1,7 @@
 interface Result {
-  picSrc: string;
-  date: string;
-  /*
-  
-  */
+  id: number;
+  image: string;
+  created_at: string;
 }
 
 interface UserInfo {
