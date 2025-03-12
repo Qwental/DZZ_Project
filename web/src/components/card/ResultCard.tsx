@@ -3,6 +3,7 @@ import Card from "./card";
 import Button from "../button/button";
 import Carousel from "../carousel/carousel";
 import LegendAccordion from "../LegendAccordion/LegendAccordion";
+import DownloadMultipleImages from "../DownloadButton/downloadbutton";
 
 type ItemType = {
   title: string;
@@ -47,14 +48,7 @@ const ResultCard: React.FC<ResultProps> = ({ previews = [] }) => {
           <LegendAccordion legendItems={legendItems}></LegendAccordion>
 
           <div className={styles.buttonsWrapper}>
-            <Button
-              size="large"
-              type="submit"
-              variant="mint"
-              disabled={previews.length === 0}
-            >
-              Скачать ({previews.length})
-            </Button>
+            <DownloadMultipleImages images={previews} />
           </div>
         </div>
       </Card>

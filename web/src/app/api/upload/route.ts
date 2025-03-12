@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   console.log("я зашел сюды");
   try {
     // Моки для проверки
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.FLAG === "development") {
       const mockUrls: string[] = [
         "https://i.imgur.com/YzFSzED.jpeg",
         "https://i.imgur.com/3giN25k.jpeg",
@@ -36,7 +36,10 @@ export async function POST(req: Request) {
     }
 
     const data = (await djangoResponse.json()) as UploadImagesResponse;
-    return NextResponse.json(data);
+    console.log(data);
+    const pre_res = NextResponse.json(data);
+    
+    return pre_res;
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Unknown error" },

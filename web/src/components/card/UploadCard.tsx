@@ -62,7 +62,7 @@ export default function UploadCarousel() {
 
     const formData = new FormData();
     selectedImgs.forEach((file) => formData.append("images", file));
-
+    console.log("fd = ", formData);
     fetch("/api/upload", {
       method: "POST",
       body: formData,
@@ -71,8 +71,9 @@ export default function UploadCarousel() {
         if (!response.ok) throw new Error("Ошибка загрузки");
         return response.json();
       })
-      .then((data) => {
-        setResult(data.urls);
+      .then((data: UploadImagesResponse) => {
+        const urls = data.results.map((result) => result.image);
+        setResult(urls);
         setShowResult(true);
         setCurrentIndex(0);
       })

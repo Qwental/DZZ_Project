@@ -15,13 +15,13 @@ export default function UserPic({ pic }: { pic: Result }) {
   return (
     <div className={styles.card}>
       <Image
-        src={pic.picSrc}
-        alt="Файл"
+        src={pic.image}
+        alt={`Photo ${pic.created_at}`}
         width={347}
         height={347}
         className={styles.image}
       />
-      <span className={styles.date}>{pic.date}</span>
+      <span className={styles.date}>{new Date(pic.created_at).toLocaleDateString()}</span>
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <Button
           variant="green"
