@@ -9,6 +9,7 @@ import styles from "./page.module.css";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import LinksBlock from "@/components/LinksBlock/LinksBlock";
+import { z } from "zod";
 
 interface RegData {
   lastName: string;
@@ -18,6 +19,23 @@ interface RegData {
   password: string;
   confirmPassword: string;
 }
+
+const baseRegisterSchema = z.object({
+  lastName: z.string().nonempty("Фамилия обязательна"),
+  firstName: z.string().nonempty("Имя обязательно"),
+  email: z.string().email("Неверный формат почты"),
+  login: z.string().nonempty("Логин обязателен"),
+  password: z.string().min(6, "Пароль должен быть минимум 6 символов"),
+  confirmPassword: z.string().nonempty("Подтверждение пароля обязательно"),
+});
+
+const registerSchema = baseRegisterSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
+    message: "Пароли не совпадают",
+    path: ["confirmPassword"],
+  }
+);
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -30,9 +48,32 @@ export default function RegisterForm() {
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState<Partial<Record<keyof RegData, string>>>(
+    {}
+  );
 
   function nextStep(e: { preventDefault: () => void }) {
     e.preventDefault();
+    const step1Schema = baseRegisterSchema.pick({
+      lastName: true,
+      firstName: true,
+      email: true,
+    });
+    const validation = step1Schema.safeParse({
+      lastName: formData.lastName,
+      firstName: formData.firstName,
+      email: formData.email,
+    });
+    if (!validation.success) {
+      const newErrors: Partial<Record<keyof RegData, string>> = {};
+      validation.error.errors.forEach((err) => {
+        const field = err.path[0] as keyof RegData;
+        newErrors[field] = err.message;
+      });
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
     setStep((prev) => prev + 1);
   }
 
@@ -50,11 +91,19 @@ export default function RegisterForm() {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    try {
-      if (formData.password !== formData.confirmPassword) {
-        throw new Error("Пароли не совпадают");
-      }
+    setErrors({});
+    const validation = registerSchema.safeParse(formData);
+    if (!validation.success) {
+      const newErrors: Partial<Record<keyof RegData, string>> = {};
+      validation.error.errors.forEach((err) => {
+        const field = err.path[0] as keyof RegData;
+        newErrors[field] = err.message;
+      });
+      setErrors(newErrors);
+      return;
+    }
 
+    try {
       const response = await fetch("/api/auth", {
         method: "POST",
         headers: {
@@ -80,6 +129,7 @@ export default function RegisterForm() {
       router.push("/login");
     } catch (err: any) {
       console.error(err.message);
+      setErrors({ login: err.message });
     }
   };
 
@@ -148,6 +198,11 @@ export default function RegisterForm() {
                     value={formData.lastName}
                     onChange={handleChange}
                   />
+                  {errors.lastName && (
+                    <p style={{ fontSize: "1rem", color: "red" }}>
+                      {errors.lastName}
+                    </p>
+                  )}
                   <Input
                     placeholder="Имя"
                     variant="people"
@@ -160,7 +215,12 @@ export default function RegisterForm() {
                     )}
                     value={formData.firstName}
                     onChange={handleChange}
-                  />
+                  />{" "}
+                  {errors.firstName && (
+                    <p style={{ fontSize: "1rem", color: "red" }}>
+                      {errors.firstName}
+                    </p>
+                  )}
                   <Input
                     placeholder="Почта"
                     variant="mail"
@@ -175,6 +235,11 @@ export default function RegisterForm() {
                     value={formData.email}
                     onChange={handleChange}
                   />
+                  {errors.email && (
+                    <p style={{ fontSize: "1rem", color: "red" }}>
+                      {errors.email}
+                    </p>
+                  )}
                   <Button
                     variant="saphire"
                     size="large"
@@ -214,6 +279,11 @@ export default function RegisterForm() {
                     value={formData.login}
                     onChange={handleChange}
                   />
+                  {errors.login && (
+                    <p style={{ fontSize: "1rem", color: "red" }}>
+                      {errors.login}
+                    </p>
+                  )}
                   <Input
                     placeholder="Пароль"
                     name="password"
@@ -228,6 +298,11 @@ export default function RegisterForm() {
                     value={formData.password}
                     onChange={handleChange}
                   />
+                  {errors.password && (
+                    <p style={{ fontSize: "1rem", color: "red" }}>
+                      {errors.password}
+                    </p>
+                  )}
                   <Input
                     placeholder="Повторите пароль"
                     name="confirmPassword"
@@ -242,6 +317,11 @@ export default function RegisterForm() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                   />
+                  {errors.confirmPassword && (
+                    <p style={{ fontSize: "1rem", color: "red" }}>
+                      {errors.confirmPassword}
+                    </p>
+                  )}
                   <div className={styles.buttonGroup}>
                     <Button
                       onClick={prevStep}
