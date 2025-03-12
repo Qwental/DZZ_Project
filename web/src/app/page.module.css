@@ -1,4 +1,7 @@
-.page {
+main {
+  flex-grow: 1;
+}
+/* .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
@@ -28,7 +31,7 @@
   display: flex;
   flex-direction: column;
    gap: 32px;
-  /* grid-row-start: 2;  */
+  grid-row-start: 2;
   align-items: center;
 }
 
@@ -106,7 +109,6 @@ a.secondary {
   flex-shrink: 0;
 }
 
-/* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
     background: var(--button-primary-hover);
@@ -163,4 +165,4 @@ a.secondary {
   .logo {
     filter: invert();
   }
-}
+} */
