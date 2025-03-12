@@ -34,7 +34,7 @@ class UploadImageView(APIView):
             settings.MEDIA_ROOT, settings.PROCESSED_IMAGES_ROOT)
         os.makedirs(processed_dir, exist_ok=True)
 
-        for image_file in request.FILES.getlist('File'):
+        for image_file in request.FILES.getlist('images'):
             image_path = os.path.join(media_dir, image_file.name)
             with open(image_path, 'wb') as f:
                 for chunk in image_file.chunks():
