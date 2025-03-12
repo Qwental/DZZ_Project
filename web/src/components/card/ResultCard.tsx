@@ -1,6 +1,5 @@
 import styles from "./card.module.css";
 import Card from "./card";
-import Button from "../button/button";
 import Carousel from "../carousel/carousel";
 import LegendAccordion from "../LegendAccordion/LegendAccordion";
 import DownloadMultipleImages from "../DownloadButton/downloadbutton";
