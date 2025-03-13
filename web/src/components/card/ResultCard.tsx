@@ -4,11 +4,11 @@ import Carousel from "../carousel/carousel";
 // import LegendAccordion from "../LegendAccordion/LegendAccordion";
 import DownloadMultipleImages from "../DownloadButton/downloadbutton";
 
-type ItemType = {
-  title: string;
-  description: string;
-  color: string;
-};
+// type ItemType = {
+//   title: string;
+//   description: string;
+//   color: string;
+// };
 
 // const legendItems: ItemType[] = [
 //   {
