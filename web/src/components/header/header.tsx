@@ -5,9 +5,9 @@ export default function Header(){
     <header className={styles.header}>
     <div className={styles.container}>
         <div className={styles.content}>
-            <a className={styles.link} href="#">
+            <link className={styles.link} href="#">
                 <img className={styles.logo} src="images/logo3.png" alt="Логотип" />
-            </a>
+            </link>
             <div className={styles.middle}>
                 <form className={styles.search} action="#" method="GET">
                     <input className={styles.searchField} type="search" aria-label="Поле поиска" name="search-field"
@@ -19,16 +19,16 @@ export default function Header(){
             </div>
             <ul className={styles.nav}>
                 <li className={styles.navItem}>
-                    <a className={styles.navLink} href="#">Инструкция</a>
+                    <link className={styles.navLink} href="#">Инструкция</link>
                 </li>
                 <li className={styles.navItem}>
-                    <a className={styles.navLink} href="#">Форма</a>
+                    <link className={styles.navLink} href="#">Форма</link>
                 </li>
                 <li className={styles.navItem}>
-                    <a className={styles.navLink} href="#">Регистрация</a>
+                    <link className={styles.navLink} href="#">Регистрация</link>
                 </li>
                 <li className={styles.navItem}>
-                    <a className={styles.navLink} href="#">Личный кабинет</a>
+                    <link className={styles.navLink} href="#">Личный кабинет</link>
                 </li>
             </ul>
         </div>

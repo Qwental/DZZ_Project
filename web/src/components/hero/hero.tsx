@@ -9,7 +9,7 @@ export default function Hero(){
                     <div className={styles.heroWrapper}>
                         <img className={styles.heroImage} src="images/logo5.png" width="345" height="125" alt="Логотип ForestWatch"/>
                         <span className={styles.heroText}>Посмотри инструкцию и&nbsp;начни прямо сейчас</span>
-                        <a className={styles.heroLink} href="#">Начать</a>
+                        <link className={styles.heroLink} href="#">Начать</link>
                         <ul className={styles.heroPages}>
                             <li className={styles.heroPagesItemheroPpagesItemActive}></li>
                             <li className={styles.heroPagesItem}></li>
