@@ -10,6 +10,11 @@ import dynamic from "next/dynamic";
 // import ResultCard from "./ResultCard";
 
 const ResultCard = dynamic(() => import("@/components/card/ResultCard"));
+const UnauthorizedBanner = dynamic(
+  () => import("@/components/UnauthorizedBanner/u_banner")
+);
+
+const loader = ["https://metallsantehgroup.ru/img/load.gif"];
 
 export default function UploadCarousel() {
   const [selectedImgs, setSelectedImgs] = useState<File[]>([]);
@@ -21,6 +26,7 @@ export default function UploadCarousel() {
   const [result, setResult] = useState<string[]>([]);
   const [showResult, setShowResult] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -62,18 +68,25 @@ export default function UploadCarousel() {
 
     const formData = new FormData();
     selectedImgs.forEach((file) => formData.append("images", file));
-
+    console.log("fd = ", formData);
     fetch("/api/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        if (!response.ok) throw new Error("Ошибка загрузки");
+        if (!response.ok) {
+          if (response.status === 401) {
+            setUnauthorized(true);
+          }
+          throw new Error("Ошибка загрузки");
+        }
         return response.json();
       })
-      .then((data) => {
-        setResult(data.urls);
+      .then((data: UploadImagesResponse) => {
+        const urls = data.results.map((result) => result.image);
+        setResult(urls);
         setShowResult(true);
+        setUnauthorized(false);
         setCurrentIndex(0);
       })
       .catch((err) => {
@@ -100,6 +113,12 @@ export default function UploadCarousel() {
 
   return (
     <div className={styles.pageContainer}>
+      {/* {unauthorized && <UnauthorizedBanner />} */}
+      <UnauthorizedBanner
+        message={"Необходима авторизация"}
+        visible={unauthorized}
+        onClose={() => setUnauthorized(false)}
+      />
       <motion.div
         ref={containerRef}
         className={styles.mainContent}
@@ -182,7 +201,13 @@ export default function UploadCarousel() {
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.3 }}
           >
-            {isLoading ? <></> : <ResultCard previews={result} />}
+            {isLoading ? (
+              <>
+                <ResultCard previews={loader} />
+              </>
+            ) : (
+              <ResultCard previews={result} />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

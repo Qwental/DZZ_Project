@@ -16,6 +16,6 @@
     text-decoration: none;
     color: #007BFF;
 }
-a:hover {
+.cancel:hover {
     text-decoration: underline;
 }

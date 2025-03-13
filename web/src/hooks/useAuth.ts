@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export const useAuth = () => {
   const router = useRouter();
-  const [curUser, setCurUser] = useState<UserInfo>({
+  const pathname = usePathname();
+  const [curUser, setCurUser] = useState({
     firstName: "",
     lastName: "",
     username: "",
@@ -15,6 +16,12 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const PUBLIC_PATHS = ["/", "/login", "/register"];
+    if (PUBLIC_PATHS.includes(pathname)) {
+      setIsLoading(false);
+      console.log("1");
+      return;
+    }
     let isMounted = true;
     const controller = new AbortController();
 
@@ -23,9 +30,7 @@ export const useAuth = () => {
         const authCheck = await fetch("/api/auth/check", {
           credentials: "include",
           signal: controller.signal,
-          headers: {
-            "Cache-Control": "no-cache",
-          },
+          headers: { "Cache-Control": "no-cache" },
         });
 
         if (!authCheck.ok) throw new Error("Unauthorized");
@@ -53,7 +58,10 @@ export const useAuth = () => {
       } catch (error) {
         if (isMounted) {
           console.error("Auth error:", error);
-          router.replace("/login");
+          if (!PUBLIC_PATHS.includes(pathname)) {
+            console.log("Dangerous place!!!");
+            router.replace("/login");
+          }
           setIsLoading(false);
         }
       }
@@ -65,7 +73,7 @@ export const useAuth = () => {
       isMounted = false;
       controller.abort();
     };
-  }, [router]);
+  }, [router, pathname]);
 
   return { curUser, isLoading };
 };

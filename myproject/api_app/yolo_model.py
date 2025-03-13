@@ -1,3 +1,4 @@
+import uuid
 from ultralytics import YOLO
 import os
 import cv2
@@ -23,7 +24,7 @@ def predict(image_path, processed_dir):
 
     # Генерируем путь для сохранённого изображения
     processed_image_name = os.path.basename(image_path)
-    processed_image_path = os.path.join(processed_dir, processed_image_name)
+    processed_image_path = os.path.join(processed_dir, f'{uuid.uuid4()}_{processed_image_name}')
 
     # Сохраняем обработанное изображение
     cv2.imwrite(processed_image_path, processed_img)
