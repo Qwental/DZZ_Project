@@ -62,10 +62,11 @@ export default function MoreInfo({ pic, onClose }: ModalInfoProps) {
         <h3>Подробная информация</h3>
         <div className={styles.infoGrid}>
           <Image
-            src={pic.picSrc}
+            src={pic.image}
             alt="Файл"
             width={347}
             height={347}
+            // fill
             className={styles.image}
           />
           <LegendAccordion legendItems={legendItems} />
