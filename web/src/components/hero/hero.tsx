@@ -1,4 +1,5 @@
 import styles from './hero.module.css';
+import Link from 'next/link';
 
 export default function Hero(){
     return (
@@ -7,9 +8,9 @@ export default function Hero(){
                 <div className={styles.heroContent}>
                     <h1 className={styles.heroHeadervisuallyHidden}>ForestWatch Приморье</h1>
                     <div className={styles.heroWrapper}>
-                        <image className={styles.heroImage} src="images/logo5.png" width="345" height="125" alt="Логотип ForestWatch"/>
+                        <img className={styles.heroImage} src="images/logo5.png" width="345" height="125" alt="Логотип ForestWatch"/>
                         <span className={styles.heroText}>Посмотри инструкцию и&nbsp;начни прямо сейчас</span>
-                        <link className={styles.heroLink} href="#">Начать</link>
+                        <Link className={styles.heroLink} href="#">Начать</Link>
                         <ul className={styles.heroPages}>
                             <li className={styles.heroPagesItemheroPpagesItemActive}></li>
                             <li className={styles.heroPagesItem}></li>

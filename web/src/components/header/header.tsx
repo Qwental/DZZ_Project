@@ -1,13 +1,14 @@
 import styles from './header.module.css';
+import Link from 'next/link';
 
 export default function Header(){
     return (
     <header className={styles.header}>
     <div className={styles.container}>
         <div className={styles.content}>
-            <link className={styles.link} href="#">
+            <Link className={styles.link} href="#">
                 <img className={styles.logo} src="images/logo3.png" alt="Логотип" />
-            </link>
+            </Link>
             <div className={styles.middle}>
                 <form className={styles.search} action="#" method="GET">
                     <input className={styles.searchField} type="search" aria-label="Поле поиска" name="search-field"
@@ -19,16 +20,16 @@ export default function Header(){
             </div>
             <ul className={styles.nav}>
                 <li className={styles.navItem}>
-                    <link className={styles.navLink} href="#">Инструкция</link>
+                    <Link className={styles.navLink} href="#">Инструкция</Link>
                 </li>
                 <li className={styles.navItem}>
-                    <link className={styles.navLink} href="#">Форма</link>
+                    <Link className={styles.navLink} href="#">Форма</Link>
                 </li>
                 <li className={styles.navItem}>
-                    <link className={styles.navLink} href="#">Регистрация</link>
+                    <Link className={styles.navLink} href="#">Регистрация</Link>
                 </li>
                 <li className={styles.navItem}>
-                    <link className={styles.navLink} href="#">Личный кабинет</link>
+                    <Link className={styles.navLink} href="#">Личный кабинет</Link>
                 </li>
             </ul>
         </div>
