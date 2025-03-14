@@ -13,7 +13,6 @@
     "blint": "bun run next lint"
   },
   "dependencies": {
-    "@types/cookie": "^1.0.0",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^12.4.9",
