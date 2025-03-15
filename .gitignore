@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.vscode
 build/
 develop-eggs/
 dist/
@@ -123,6 +124,9 @@ celerybeat.pid
 
 # Environments
 .env
+# Для разработки .env.local все же будет, в проде скрыт т тспользуется .env.production
+!web/.env.local
+!web/.env.development
 .venv
 env/
 venv/

@@ -1,0 +1,36 @@
+services:
+  # Сервис бэкенда
+  backend:
+    build:
+      context: ./myproject
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+    volumes:
+      - ./myproject:/app
+  # Фронтенд
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    # volumes:
+    #   - ./web:/app
+  # Моксервер
+  mock-server:
+    image: mockserver/mockserver:latest
+    ports:
+      - "1080:1080"
+    volumes:
+      - ./mock-config.json:/config/mock-config.json
+    environment:
+      - MOCKSERVER_INITIALIZATION_JSON_PATH=/config/mock-config.json
+      - MOCKSERVER_LOG_LEVEL=INFO
+    command: "-logLevel INFO -serverPort 1080"

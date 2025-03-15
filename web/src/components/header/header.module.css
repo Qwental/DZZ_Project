@@ -1,0 +1,89 @@
+.header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    margin-bottom: 5vh;
+}
+
+.content {
+    opacity: 0.7;
+}
+
+.content {
+    padding: 10px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 10px 1fr;
+    gap: 20px;
+    align-items: center;
+    background-color: #ccc;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    width: 265px;
+}
+
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.search {
+    display: flex;
+    width: 200px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 12px;
+    line-height: 16px;
+    position: relative;
+    display: none;
+}
+
+.searchField {
+    display: flex;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.searchIcon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.searchIcon:hover {
+    cursor: pointer;
+}
+
+.nav {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navLink {
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+}
+
+.heroLogo {
+    position: absolute;
+    right: 40px;
+    bottom: 110px;
+}
