@@ -1,3 +1,6 @@
+@import url('fonts.css'); /* Импортируем шрифты */
+
+
 :root {
     /* зеленый */
     --green-color: #327160;
