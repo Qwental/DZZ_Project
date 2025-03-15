@@ -1,3 +1,6 @@
+*.pt
+media/
+migrations/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -8,6 +11,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.vscode
 build/
 develop-eggs/
 dist/
@@ -123,6 +127,9 @@ celerybeat.pid
 
 # Environments
 .env
+# Для разработки .env.local все же будет, в проде скрыт т тспользуется .env.production
+!web/.env.local
+!web/.env.development
 .venv
 env/
 venv/
@@ -160,3 +167,7 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+web/package-lock.json
+
+**/uv.lock
+web/pnpm-lock.yaml
