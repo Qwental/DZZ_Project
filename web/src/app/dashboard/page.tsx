@@ -14,7 +14,7 @@ export default function DahboardPage() {
   // TODO: тут можно красоты навалить
   if (isLoading) {
     console.log("Загрузка");
-    // return <div>Загрузка...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (curUser == null) {

@@ -24,13 +24,13 @@ services:
     # volumes:
     #   - ./web:/app
   # Моксервер
-  mock-server:
-    image: mockserver/mockserver:latest
-    ports:
-      - "1080:1080"
-    volumes:
-      - ./mock-config.json:/config/mock-config.json
-    environment:
-      - MOCKSERVER_INITIALIZATION_JSON_PATH=/config/mock-config.json
-      - MOCKSERVER_LOG_LEVEL=INFO
-    command: "-logLevel INFO -serverPort 1080"
+  # mock-server:
+  #   image: mockserver/mockserver:latest
+  #   ports:
+  #     - "1080:1080"
+  #   volumes:
+  #     - ./mock-config.json:/config/mock-config.json
+  #   environment:
+  #     - MOCKSERVER_INITIALIZATION_JSON_PATH=/config/mock-config.json
+  #     - MOCKSERVER_LOG_LEVEL=INFO
+  #   command: "-logLevel INFO -serverPort 1080"

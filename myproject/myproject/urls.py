@@ -29,7 +29,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include('api_app.urls')),
+    path('api/', include('api_app.urls')),
     path('api/', include('users.urls'), name='users'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -43,6 +43,4 @@ urlpatterns = [
             cache_timeout=0), name='schema-redoc'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
-    static(settings.PROCESSED_IMAGES_URL,
-           document_root=settings.PROCESSED_IMAGES_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

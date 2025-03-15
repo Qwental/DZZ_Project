@@ -4,54 +4,54 @@ import { cookies } from "next/headers";
 
 export async function GET() {
   try {
-    if (process.env.NODE_ENV === "development") {
-      const mockUser: UserInfo = {
-        firstName: "Вовчик",
-        lastName: "Бугренков",
-        username: "qwental_",
-        email: "vova2005gt@gmail.com",
-        avatarSrc: "https://i.imgur.com/kEanQzn.jpeg",
-        photos: [
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-          {
-            picSrc: "https://i.imgur.com/YzFSzED.jpeg",
-            date: "27.02.2005",
-          },
-        ],
-      };
-      return NextResponse.json(mockUser);
-    }
+    // if (process.env.FLAG === "development") {
+    //   const mockUser: UserInfo = {
+    //     firstName: "Вовчик",
+    //     lastName: "Бугренков",
+    //     username: "qwental_",
+    //     email: "vova2005gt@gmail.com",
+    //     avatarSrc: "https://i.imgur.com/kEanQzn.jpeg",
+    //     photos: [
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //       {
+    //         picSrc: "https://i.imgur.com/YzFSzED.jpeg",
+    //         date: "27.02.2005",
+    //       },
+    //     ],
+    //   };
+    //   return NextResponse.json(mockUser);
+    // }
 
     const accessToken = (await cookies()).get("access_token")?.value;
     console.log("Access token:", accessToken);
@@ -63,7 +63,10 @@ export async function GET() {
       );
     }
 
-    const response = await fetch(`${process.env.DJANGO_API}/api/users/0/`, {
+    const baseUrl = process.env.DJANGO_API?.replace(/\/$/, "");
+    const url = `${baseUrl}/api/users/0/`;
+
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -88,12 +91,12 @@ export async function GET() {
       lastName: answer.last_name || "",
       username: answer.username || "",
       email: answer.email || "",
-      avatarSrc: answer.avatar_url || "/default-avatar.jpg",
-      photos:
-        answer.photos?.map((p: any) => ({
-          picSrc: p.picSrc,
-          date: p.date,
-        })) || [],
+      avatarSrc: answer.avatar_url || "https://i.imgur.com/kEanQzn.jpeg",
+      photos: (answer.photos || []).map((p: any) => ({
+        id: p.id,
+        image: p.image.startsWith("http") ? p.image : `${baseUrl}${p.image}`,
+        created_at: p.created_at,
+      })),
     };
 
     return NextResponse.json(userData);

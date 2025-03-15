@@ -3,12 +3,17 @@ from .models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from api_app.serializers import ProcessedImageSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
+    photos = ProcessedImageSerializer(
+        many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'username', 'email']
+        fields = ['id', 'first_name', 'last_name',
+                  'username', 'email', 'photos']
         read_only_fields = ['id', 'username']
 
 
@@ -31,10 +36,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'password', 'password2',
                   'email', 'first_name', 'last_name')
-        extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True}
-        }
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -46,8 +47,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            first_name=validated_data.get('first_name', 'Noname'),
+            last_name=validated_data.get('last_name', '')
         )
         user.set_password(validated_data['password'])
         user.save()

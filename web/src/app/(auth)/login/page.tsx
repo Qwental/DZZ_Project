@@ -1,21 +1,45 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import Input from "@/components/inputs/input";
 import Button from "@/components/button/button";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 import styles from "./page.module.css";
 import LinksBlock from "@/components/LinksBlock/LinksBlock";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  login: z.string().nonempty("Логин обязателен"),
+  password: z.string().min(6, "Пароль должен быть минимум 6 символов"),
+});
 
 export default function LoginPage() {
   const router = useRouter();
+  const [errors, setErrors] = useState<{ login?: string; password?: string }>(
+    {}
+  );
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors({});
     const formData = new FormData(e.currentTarget);
 
-    console.log(formData.get("username"), formData.get("password"));
+    const loginData = {
+      login: formData.get("login")?.toString() ?? "",
+      password: formData.get("password")?.toString() ?? "",
+    };
+
+    const validation = loginSchema.safeParse(loginData);
+    if (!validation.success) {
+      const fieldErrors: { login?: string; password?: string } = {};
+      validation.error.errors.forEach((err) => {
+        const field = err.path[0] as "login" | "password";
+        fieldErrors[field] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
 
     const response = await fetch("/api/auth", {
       method: "POST",
@@ -28,6 +52,9 @@ export default function LoginPage() {
 
     if (response.ok) {
       router.push("/dashboard");
+    } else {
+      const data = await response.json();
+      setErrors({ password: data.error || "Ошибка авторизации" });
     }
   };
 
@@ -71,6 +98,9 @@ export default function LoginPage() {
               name="login"
               style={{ marginBottom: "1vh" }}
             />
+            {errors.login && (
+              <p style={{ fontSize: "1rem", color: "red" }}>{errors.login}</p>
+            )}
             <Input
               variant="pass"
               className={classNames(styles.otstupiki, styles.pass)}
@@ -78,7 +108,12 @@ export default function LoginPage() {
               type="password"
               name="password"
               required
-            />
+            />{" "}
+            {errors.password && (
+              <p style={{ fontSize: "1rem", color: "red" }}>
+                {errors.password}
+              </p>
+            )}
             <Button
               variant="saphire"
               size="large"

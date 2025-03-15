@@ -3,108 +3,137 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    // eslint-disable-next-line prefer-const
     let { action, ...payload } = await req.json();
 
-    // Разработка
-    if (process.env.NODE_ENV === "development") {
-      const mockData =
-        action === "register"
-          ? { id: 1, ...payload }
-          : { access: "mock-access", refresh: "mock-refresh" };
+    console.log(`[API Auth] Action: ${action}`, payload);
 
-      console.log(mockData);
+    const isDev = process.env.FLAG === "development";
+
+    if (isDev) {
+      const mockData = {
+        register: { id: 1, ...payload },
+        login: { access: "mock-access", refresh: "mock-refresh" },
+        refresh: { access: "new-access", refresh: "new-refresh" },
+        logout: {},
+      }[action];
 
       const res = NextResponse.json(mockData);
+
       if (action === "logout") {
         res.cookies.delete("access_token");
         res.cookies.delete("refresh_token");
-        return res;
       }
-      if (action !== "register") {
+
+      if (["login", "refresh"].includes(action)) {
         res.cookies.set("access_token", mockData.access);
         res.cookies.set("refresh_token", mockData.refresh);
       }
+
       return res;
     }
 
-    // Прод
-    const endpoints: { [key: string]: string } = {
-      // login: "/api/auth/login/",
+    const endpoints = {
       login: "/api/token/",
       register: "/api/auth/register/",
       refresh: "/api/token/refresh/",
       logout: "/api/auth/logout/",
     };
 
-    const refreshToken = (await cookies()).get("refresh_token")?.value;
-    const accessToken = (await cookies()).get("access_token")?.value;
-
-    if (action === "logout") {
-      payload = {
-        refresh_token: refreshToken,
-      };
-    } else if (action === "refresh") {
-      payload = {
-        refresh: refreshToken,
-      };
+    if (!endpoints[action]) {
+      return NextResponse.json(
+        { error: "Invalid action type" },
+        { status: 400 }
+      );
     }
 
-    const response = await fetch(
-      `${process.env.DJANGO_API}${endpoints[action]}`,
-      {
+    const baseUrl = process.env.DJANGO_API?.replace(/\/$/, "");
+    const endpoint = endpoints[action].replace(/^\//, "");
+    const url = `${baseUrl}/${endpoint}`;
+
+    console.log("url = ", url);
+
+    let body = payload;
+    console.log("body = ", JSON.stringify(body));
+
+    if (action === "logout") {
+      body = { refresh: (await cookies()).get("refresh_token")?.value };
+    }
+    if (action === "refresh") {
+      body = { refresh: (await cookies()).get("refresh_token")?.value };
+    }
+
+    let response;
+    try {
+      response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(!["login", "register"].includes(action) && {
-            Authorization: `Bearer ${accessToken}`,
-          }),
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    } catch (error) {
+      console.error("Network error:", error);
+      return NextResponse.json(
+        { error: `Network error: ${error.message}` },
+        { status: 500 }
+      );
+    }
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error("Backend error:", {
+        status: response.status,
+        url,
+        errorData,
+      });
+
+      return NextResponse.json(
+        { error: `Backend error: ${errorData}` },
+        { status: response.status }
+      );
+    }
 
     const data = await response.json();
-
     const nextRes = NextResponse.json(data);
+    // let cookieOptions = {
+    //   httpOnly: true,
+    //   secure: !isDev,
+    //   sameSite: "strict",
+    //   path: "/",
+    // };
 
-    console.log("access = ", data);
+    if (["login", "refresh"].includes(action)) {
+      // cookieOptions = {
+      //   httpOnly: true,
+      //   secure: !isDev,
+      //   sameSite: "strict",
+      //   path: "/",
+      // };
 
-    if (action === "login") {
-      nextRes.cookies.set("access_token", data.access, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/",
-      });
-      nextRes.cookies.set("refresh_token", data.refresh, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/",
-      });
-    } else if (action === "refresh") {
-      nextRes.cookies.set("access_token", data.access, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/",
-      });
-      nextRes.cookies.set("refresh_token", data.refresh, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/",
-      });
-    } else if (action === "logout") {
-      nextRes.cookies.delete("access_token");
-      nextRes.cookies.delete("refresh_token");
+      if (data.access) {
+        nextRes.cookies.set("access_token", data.access, {
+          httpOnly: true,
+          secure: !isDev,
+          sameSite: "strict",
+          path: "/",
+        });
+      }
+      if (data.refresh) {
+        nextRes.cookies.set("refresh_token", data.refresh, {
+          httpOnly: true,
+          secure: !isDev,
+          sameSite: "strict",
+          path: "/",
+        });
+      }
     }
 
     return nextRes;
-  } catch {
+  } catch (error) {
+    console.error("Global error handler:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      {
+        error: "Internal Server Error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }

@@ -10,7 +10,7 @@ router.register(r'users', UserViewSet, basename='users')
 
 
 urlpatterns = [
-    path('auth/register/', RegisterView.as_view()),
-    path('auth/logout/', LogoutView.as_view(), name='logout '),
+    path('auth/register/', RegisterView.as_view(), name='register'),
+    path('auth/logout/', LogoutView.as_view(), name='logout'),
     path('', include(router.urls))
 ]

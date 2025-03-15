@@ -46,3 +46,8 @@
 .infoGrid>div:nth-child(even) {
     color: #666;
 }
+
+
+.image {
+    width: 100%;
+}

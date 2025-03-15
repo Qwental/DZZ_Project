@@ -1,7 +1,14 @@
-interface UploadImagesRequest {
-  images: File[];
+interface ProcessedImage {
+  id: number;
+  image: string;
+  created_at: string;
 }
 
 interface UploadImagesResponse {
-  urls: string[];
+  message: string;
+  results: ProcessedImage[];
+}
+
+interface UploadImagesRequest {
+  images: File[];
 }

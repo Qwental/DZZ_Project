@@ -144,7 +144,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 PROCESSED_IMAGES_URL = '/processed_images/'
-PROCESSED_IMAGES_ROOT = os.path.join(BASE_DIR, 'processed_images')
+PROCESSED_IMAGES_ROOT = 'processed_images'
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
