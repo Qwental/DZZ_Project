@@ -1,25 +1,41 @@
+@import url('../../styles/fonts.css'); /* Импортируем шрифты */
+
+/* Основной контейнер */
 .instructionWrapper {
     padding: 160px 110px;
-    display: flex;
-    gap: 10px;
+    display: flex; /* Используем Flexbox */
+    justify-content: space-between; /* Равномерное распределение пространства */
+    gap: 40px; /* Отступ между блоками */
     background-image: url("../../../public/images/back3.png");
     background-size: 1340px 508px;
     background-repeat: no-repeat;
     background-position: top left;
+    background-color: #ffffff;
+    min-height: 500px; /* Минимальная высота секции */
 }
 
-.instructionWrapper-left {
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* Левый блок */
+.instructionWrapperLeft {
+    flex: 1; /* Занимает доступное пространство */
+    max-width: 340px; /* Ограничиваем ширину */
 }
 
-.instructionWrapper-right {
-    width: 340px;
+/* Центральный блок */
+.instructionWrapperCentral {
+    flex: 2; /* Занимает больше пространства, чем левый и правый */
+    max-width: 600px; /* Ограничиваем ширину */
 }
 
+/* Правый блок */
+.instructionWrapperRight {
+    flex: 1; /* Занимает доступное пространство */
+    max-width: 390px; /* Ограничиваем ширину */
+}
+
+/* Общие стили для ссылок */
 .instructionLink {
+    font-family: 'Montserrat', sans-serif;
+
     width: 174px;
     padding: 16px;
     background-color: #07a97e;
@@ -29,25 +45,31 @@
     text-decoration: none;
     font-size: 12px;
     line-height: 16px;
+    display: inline-block;
 }
 
-.instructionLink:hover {
-    color: #FFFFFF;
+.instructionLinkPosition {
+    margin-top: 30px;
 }
 
+/* Заголовок */
 .instructionHeader {
-    margin: 0;
+    font-family: 'Montserrat', sans-serif;
     font-size: 26px;
     line-height: 28px;
     color: #000000;
 }
 
+/* Текст */
 .instructionText {
+    font-family: 'Montserrat', sans-serif;
+    white-space: pre-line;
     font-size: 16px;
     line-height: 20px;
     color: #a4a4a4;
 }
 
+/* Список шагов */
 .instructionWrapperSteps {
     padding: 0;
     margin: 0;
@@ -65,16 +87,16 @@
 }
 
 .instructionWrapperStepsNumber {
-    width: 100%;
+    font-family: 'Montserrat3', sans-serif;
+
     font-size: 46px;
     line-height: 46px;
     font-weight: 500;
     color: #cecece;
-    display: flex;
     margin: 0;
-    text-align:justify;
 }
 
+/* Список цветов */
 .instructionWrapperColors {
     margin: 0;
     padding: 0;
@@ -90,7 +112,7 @@
     line-height: 20px;
     font-weight: 600;
     color: #a4a4a4;
-    padding: 0 0 0 47px;
+    padding-left: 47px;
 }
 
 .instructionWrapperColorsName::before {
@@ -116,7 +138,8 @@
     background-color: #a77730;
 }
 
+/* Картинка */
 .instructionWrapperImage {
     border: 4px solid #1d213b;
-    box-shadow: #6b9ca0 10px 25px;
+    box-shadow: 10px 25px #6b9ca0;
 }

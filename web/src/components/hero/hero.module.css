@@ -1,3 +1,6 @@
+@import url('../../styles/fonts.css'); /* Импортируем шрифты */
+
+
 .heroContent {
     min-height: 468px;
     background-image: url("../../../public/images/hero10.png");
@@ -25,6 +28,7 @@
 }
 
 .heroText {
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     line-height: 18px;
     color: #c3c3c3;
@@ -32,6 +36,8 @@
 }
 
 .heroLink {
+    font-family: 'Montserrat', sans-serif;
+
     width: 168px;
     padding: 20px;
     background-color: #1b2143;
@@ -67,4 +73,9 @@
 
 .heroPagesItem:hover {
     background-color: #1b2143;
+}
+
+/* Определяю heroImage*/
+.heroImage{
+    width: 100%;
 }
