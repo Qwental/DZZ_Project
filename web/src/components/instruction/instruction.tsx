@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './instruction.module.css';
 
 export default function Instruction(){
@@ -6,7 +7,7 @@ export default function Instruction(){
             <div className={styles.container}>
                 <div className={styles.instructionWrapper}>
                     <div className={styles.instructionWrapperLeft}>
-                        <link className={styles.instructionLink} href="#">Как пользоваться?</link>
+                        <Link className={styles.instructionLink} href="#">Как пользоваться?</Link>
                         <h2 className={styles.instructionHeader}>Инструкция по использованию</h2>
                         <span className={styles.instructionText}>Мы подробно рассмотрим, как использовать сервис <b>ForestWatch Приморье</b> для распознавания участков</span>
                     </div>
