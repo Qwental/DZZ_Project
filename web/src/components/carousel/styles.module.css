@@ -1,3 +1,6 @@
+/*@import url('../../styles/fonts.css'); !* Импортируем шрифты *!*/
+
+
 .carousel {
     display: flex;
     align-items: center;
