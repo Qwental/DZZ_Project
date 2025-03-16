@@ -3,11 +3,11 @@ import styles from './instruction.module.css';
 
 export default function Instruction() {
     return (
-        <section className={styles.instructionWrapper}>
+        <section className={styles.instructionWrapper} id="instructionSection">
             {/* Левый блок */}
             <div className={styles.instructionWrapperLeft}>
                 <div className={styles.instructionLinkPosition}>
-                    <Link className={styles.instructionLink} href="#">
+                    <Link className={styles.instructionLink} href="instructionSection">
                         Как пользоваться?
                     </Link>
                 </div>

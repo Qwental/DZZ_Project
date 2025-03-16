@@ -2,6 +2,7 @@ import styles from './header.module.css';
 import Link from 'next/link';
 
 export default function Header() {
+
     return (
         <header className={styles.header}>
             <div className={styles.container}>
@@ -23,7 +24,7 @@ export default function Header() {
 
                     <ul className={styles.nav}>
                         <li className={styles.navItem}>
-                            <Link className={styles.navLink} href="/">Инструкция</Link>
+                            <Link className={styles.navLink} href="#instructionSection">Инструкция</Link>
                         </li>
                         <li className={styles.navItem}>
                             <Link className={styles.navLink} href="/upload">Форма</Link>
