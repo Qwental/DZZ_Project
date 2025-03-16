@@ -271,7 +271,7 @@
 }
 
 .itemFelling .instructionWrapperColorsName::before {
-    background-color: blue;
+    background-color: red;
 }
 
 .itemForest .instructionWrapperColorsName::before {
