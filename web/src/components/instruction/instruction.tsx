@@ -50,17 +50,17 @@ export default function Instruction() {
                                 Цвета выделенных участков:
                             </span>
                             <ul className={styles.instructionWrapperColors}>
-                                <li className={`${styles.instructionWrapperColorsItem} ${styles.instructionWrapperColorsItemRed}`}>
-                                    <span className={styles.instructionWrapperColorsName}>Гарь</span>
+                                {/*<li className={`${styles.instructionWrapperColorsItem} ${styles.instructionWrapperColorsItemRed}`}>*/}
+                                {/*    <span className={styles.instructionWrapperColorsName}>Гарь</span>*/}
+                                {/*</li>*/}
+                                <li className={`${styles.instructionWrapperColorsItem} ${styles.itemForest}`}>
+                                    <span className={styles.instructionWrapperColorsName}>Forest - Лес</span>
                                 </li>
-                                <li className={`${styles.instructionWrapperColorsItem} ${styles.instructionWrapperColorsItemPurple}`}>
-                                    <span className={styles.instructionWrapperColorsName}>Лес</span>
+                                <li className={`${styles.instructionWrapperColorsItem} ${styles.itemFelling}`}>
+                                    <span className={styles.instructionWrapperColorsName}>Felling - Вырубка</span>
                                 </li>
-                                <li className={styles.instructionWrapperColorsItem}>
-                                    <span className={styles.instructionWrapperColorsName}>Вырубка</span>
-                                </li>
-                                <li className={`${styles.instructionWrapperColorsItem} ${styles.instructionWrapperColorsItemOrange}`}>
-                                    <span className={styles.instructionWrapperColorsName}>Пашня</span>
+                                <li className={`${styles.instructionWrapperColorsItem} ${styles.itemPlow}`}>
+                                    <span className={styles.instructionWrapperColorsName}>Plow - Сельскохозяйственное угодье</span>
                                 </li>
                             </ul>
                         </div>

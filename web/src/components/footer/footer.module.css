@@ -195,6 +195,8 @@
 
 .footer__text {
     color: #c3c3c3;
+    font-size: 0.625vw; /* 12px / 1920px * 100 */
+    line-height: 0.73vw; /* 14px / 1920px * 100 */
     font-family: 'Montserrat', sans-serif;
 }
 
