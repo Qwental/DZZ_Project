@@ -271,15 +271,15 @@
 }
 
 .itemFelling .instructionWrapperColorsName::before {
-    background-color: red;
+    background-color: rgb(255, 0, 0);
 }
 
 .itemForest .instructionWrapperColorsName::before {
-    background-color: forestgreen;
+    background-color: rgb(34, 139, 34);
 }
 
 .itemPlow .instructionWrapperColorsName::before {
-    background-color: saddlebrown;
+    background-color: rgb(139, 69, 19);
 }
 
 /*.itemPlow{*/
