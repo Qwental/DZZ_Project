@@ -56,3 +56,12 @@
     cursor: pointer;
     color: #f44336;
 }
+
+.mainButton{
+    background-color: #17e439;
+        border: none;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+}

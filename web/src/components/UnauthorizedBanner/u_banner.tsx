@@ -20,6 +20,10 @@ const UnauthorizedToast: React.FC<UnauthorizedToastProps> = ({
     router.push("/login");
   };
 
+    const handleMain = () => {
+      router.push("/");
+    };
+
   useEffect(() => {
     if (visible) {
       const timer = setTimeout(() => {
@@ -52,6 +56,9 @@ const UnauthorizedToast: React.FC<UnauthorizedToastProps> = ({
             <div className={styles.buttonGroup}>
               <button className={styles.loginButton} onClick={handleLogin}>
                 Войти
+              </button>
+              <button className={styles.mainButton} onClick={handleMain}>
+                На главную
               </button>
             </div>
           </motion.div>

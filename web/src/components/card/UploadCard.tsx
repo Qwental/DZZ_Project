@@ -116,7 +116,7 @@ export default function UploadCarousel() {
       {/* {unauthorized && <UnauthorizedBanner />} */}
       <UnauthorizedBanner
         message={"Необходима авторизация"}
-        visible={unauthorized}
+        visible={!unauthorized}
         onClose={() => setUnauthorized(false)}
       />
       <motion.div
