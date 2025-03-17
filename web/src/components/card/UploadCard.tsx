@@ -34,6 +34,24 @@ export default function UploadCarousel() {
     };
   }, [previewUrls]);
 
+    useEffect(() => {
+      const checkAuthStatus = async () => {
+        try {
+          const response = await fetch("/api/auth/check");
+          if (!response.ok) {
+            setUnauthorized(true);
+            return;
+          }
+          setUnauthorized(false);
+        } catch (error) {
+          console.error("Auth check error:", error);
+          setUnauthorized(true);
+        }
+      };
+
+      checkAuthStatus();
+    }, []);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleFileChange(event: any): void {
     // ChangeEvent<HTMLInputElement>
@@ -116,7 +134,7 @@ export default function UploadCarousel() {
       {/* {unauthorized && <UnauthorizedBanner />} */}
       <UnauthorizedBanner
         message={"Необходима авторизация"}
-        visible={!unauthorized}
+        visible={unauthorized}
         onClose={() => setUnauthorized(false)}
       />
       <motion.div
