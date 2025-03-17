@@ -6,11 +6,23 @@ export async function POST(req: Request) {
   try {
     // Моки для проверки
     if (process.env.FLAG === "development") {
-      const mockUrls: string[] = [
-        "https://i.imgur.com/YzFSzED.jpeg",
-        "https://i.imgur.com/3giN25k.jpeg",
-      ];
-      return NextResponse.json<UploadImagesResponse>({ urls: mockUrls });
+      const mockUrls: UploadImagesResponse = {
+        message: "success",
+        results: [
+          {
+            id: 0,
+            image: "https://i.imgur.com/YzFSzED.jpeg",
+            created_at: "",
+          },
+          {
+            id: 1,
+            image: "https://i.imgur.com/3giN25k.jpeg",
+            created_at: "",
+          },
+        ],
+      };
+
+      return NextResponse.json<UploadImagesResponse>(mockUrls);
     }
 
     // Прод
@@ -19,7 +31,7 @@ export async function POST(req: Request) {
 
     const accessToken = (await cookies()).get("access_token")?.value;
     console.log(formData);
-    console.log(files)
+    console.log(files);
     const djangoResponse = await fetch(
       `${process.env.DJANGO_API}/api/upload/`,
       {
@@ -38,7 +50,7 @@ export async function POST(req: Request) {
     const data = (await djangoResponse.json()) as UploadImagesResponse;
     console.log(data);
     const pre_res = NextResponse.json(data);
-    
+
     return pre_res;
   } catch (error) {
     return NextResponse.json(
