@@ -7,7 +7,7 @@ const UserPic = dynamic(() => import("@/components/userpic/userpic"));
 
 
 export default function UserPhotos({ pics }: { pics: Result[] }) {
-  console.log(pics[0].picSrc);
+  console.log(pics[0].image);
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Готовые файлы</h2>
