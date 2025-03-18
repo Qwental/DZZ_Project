@@ -75,7 +75,7 @@ def predict(image_path, processed_dir):
             "x1": x1, "y1": y1, "x2": x2, "y2": y2,
             "confidence": confidence,
             "class_id": class_id,
-            "class_name": class_name  # Теперь JSON содержит название класса
+            "class_name": class_name
         })
 
     relative_path = os.path.relpath(processed_image_path, settings.MEDIA_ROOT)
