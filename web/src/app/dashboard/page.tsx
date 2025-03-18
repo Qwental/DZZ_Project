@@ -2,7 +2,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import styles from "./page.module.css";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 
 const Profile = dynamic(() => import("@/components/profile/profile"));
 const UserPhotos = dynamic(() => import("@/components/userPhotos/userPhotos"));
