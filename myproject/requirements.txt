@@ -10,3 +10,4 @@ drf-yasg[validation]
 coreapi
 django-jsonform==2.22.0
 gunicorn==22.0.0
+pyuploadcare
