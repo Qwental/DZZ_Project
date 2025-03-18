@@ -2,6 +2,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import styles from "./page.module.css";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const Profile = dynamic(() => import("@/components/profile/profile"));
 const UserPhotos = dynamic(() => import("@/components/userPhotos/userPhotos"));
@@ -31,11 +32,13 @@ export default function DahboardPage() {
     <div className={styles.container}>
       <div className={styles.page}>
         <div className={styles.resultsZone}>
-          {curUser.photos?.length ? (
+          {curUser.photos?.length === 0 ? (
             <UserPhotos pics={curUser.photos} />
           ) : (
-            <div>Нет доступных фотографий</div>
-          )}
+            <div style={{color: "black"}}>
+              <p>пока тут пусто, но вы можете перейти на форму</p>
+            </div>
+            )}
         </div>
         <div className={styles.profileZone}>
           <Profile user={curUser} />

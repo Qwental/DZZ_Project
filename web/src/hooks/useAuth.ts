@@ -33,7 +33,10 @@ export const useAuth = () => {
           headers: { "Cache-Control": "no-cache" },
         });
 
-        if (!authCheck.ok) throw new Error("Unauthorized");
+        if (!authCheck.ok) {
+          router.push("/login");
+          // throw new Error("Unauthorized");
+        }
 
         const userResponse = await fetch("/api/auth/get_user", {
           credentials: "include",
