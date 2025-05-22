@@ -10,18 +10,22 @@ from django.conf import settings
 model_path = os.path.join(os.path.dirname(__file__), '..', 'best.pt')
 model = YOLO(model_path)
 
+# Выводим список классов, загруженных в модель
+print("Модель содержит классы:", model.names)
+
 # Словарь соответствия ID → Название класса
+# Можно заменить на model.names, если уверены в соответствии
 CLASS_NAMES = {
-    0: "felling",
-    1: "forest",
-    2: "plow"
+    1: "felling",
+    2: "forest",
+    3: "plow"
 }
 
-# Определяем цвета для классов
+# Цвета для рисования боксов
 CLASS_COLORS = {
-    0: (255, 0, 0),
-    1: (34, 139, 34),
-    2: (19, 69, 139)
+    1: (255, 0, 0),       # felling
+    2: (34, 139, 34),     # forest
+    3: (19, 69, 139)      # plow
 }
 
 
@@ -29,55 +33,54 @@ def predict(image_path, processed_dir):
     # Загружаем изображение
     image = cv2.imread(image_path)
 
+    if image is None:
+        print(f"Ошибка загрузки изображения: {image_path}")
+        return None, []
+
     # Запускаем детекцию
     results = model(image)
-
-    # Получаем первое изображение с детекциями
     result = results[0]
 
-    # Извлекаем bounding box'ы и рисуем их вручную
+    # Рисуем bounding boxes
     for box in result.boxes.data:
         x1, y1, x2, y2, confidence, class_id = box.tolist()
         class_id = int(class_id)
 
-        # Получаем название класса (если не найден - "unknown")
         class_name = CLASS_NAMES.get(class_id, "unknown")
-
-        # Выбираем цвет для класса (по умолчанию белый)
         color = CLASS_COLORS.get(class_id, (255, 255, 255))
 
-        # Рисуем bounding box
+        # Рисуем прямоугольник и текст
         cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
-
-        # Добавляем подпись (Название класса + Уверенность)
         label = f"{class_name} {confidence:.2f}"
         cv2.putText(image, label, (int(x1), int(y1) - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-    # Генерируем путь для сохранённого изображения
+    # Сохраняем изображение с разметкой
     processed_image_name = os.path.basename(image_path)
     processed_image_path = os.path.join(processed_dir, f'{uuid.uuid4()}_{processed_image_name}')
-
-    # Сохраняем обработанное изображение
     cv2.imwrite(processed_image_path, image)
 
-    # Проверяем, сохранился ли файл
     if not os.path.exists(processed_image_path):
         print(f"Ошибка: файл {processed_image_path} не был сохранён!")
     else:
         print(f"Файл сохранён: {processed_image_path}")
 
-    # Извлекаем информацию о детекциях
+    # Сбор информации о детекциях
     detections = []
     for box in result.boxes.data:
         x1, y1, x2, y2, confidence, class_id = box.tolist()
+        class_id = int(class_id)
+        class_name = CLASS_NAMES.get(class_id, "unknown")
         detections.append({
-            "x1": x1, "y1": y1, "x2": x2, "y2": y2,
+            "x1": x1,
+            "y1": y1,
+            "x2": x2,
+            "y2": y2,
             "confidence": confidence,
             "class_id": class_id,
             "class_name": class_name
         })
 
+    # Возвращаем относительный путь для Django и список объектов
     relative_path = os.path.relpath(processed_image_path, settings.MEDIA_ROOT)
-
     return relative_path, detections
